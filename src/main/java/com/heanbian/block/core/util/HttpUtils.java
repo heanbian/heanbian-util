@@ -10,7 +10,7 @@ import org.apache.http.util.EntityUtils;
 
 public class HttpUtils {
 
-	public static HRestResponse doGet(String urlPart) {
+	public static HRestResponse<String> doGet(String urlPart) {
 		Objects.requireNonNull(urlPart, "urlPart must not be null");
 		CloseableHttpResponse response = null;
 		try {
@@ -30,7 +30,7 @@ public class HttpUtils {
 		}
 	}
 
-	public static HRestResponse doPost(String url, String part) {
+	public static HRestResponse<String> doPost(String url, String part) {
 		Objects.requireNonNull(url, "url must not be null");
 		CloseableHttpResponse response = null;
 		try {
@@ -50,7 +50,7 @@ public class HttpUtils {
 		}
 	}
 
-	public static HRestResponse doPost(String url, Map<String, String> part) {
+	public static HRestResponse<String> doPost(String url, Map<String, String> part) {
 		Objects.requireNonNull(url, "url must not be null");
 		CloseableHttpResponse response = null;
 		try {
