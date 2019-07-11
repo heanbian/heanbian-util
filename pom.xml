@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.heanbian</groupId>
+	<artifactId>heanbian-core</artifactId>
+	<version>1.0.0</version>
+	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>heanbian</id>
+			<name>heanbian</name>
+			<email>heanbian@heanbian.com</email>
+			<organization>heanbian.com</organization>
+			<organizationUrl>http://www.heanbian.com</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:https://github.com/heanbian/heanbian-core.git</connection>
+		<developerConnection>scm:git:https://github.com/heanbian/heanbian-core.git</developerConnection>
+		<url>https://github.com/heanbian/heanbian-core</url>
+	</scm>
+
+	<issueManagement>
+		<system>Github</system>
+		<url>https://github.com/heanbian/heanbian-core/issues</url>
+	</issueManagement>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<httpclient.version>4.5.9</httpclient.version>
+		<httpcore.version>4.4.11</httpcore.version>
+		<heanbian-crypto.version>4.0.7</heanbian-crypto.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.heanbian</groupId>
+			<artifactId>heanbian-crypto</artifactId>
+			<version>${heanbian-crypto.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${httpclient.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient-cache</artifactId>
+			<version>${httpclient.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>${httpcore.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>${httpclient.version}</version>
+		</dependency>
+	</dependencies>
+</project>
