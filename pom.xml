@@ -22,7 +22,7 @@
 			<name>heanbian</name>
 			<email>heanbian@heanbian.com</email>
 			<organization>heanbian.com</organization>
-			<organizationUrl>http://www.heanbian.com</organizationUrl>
+			<organizationUrl>https://www.heanbian.com</organizationUrl>
 			<roles>
 				<role>developer</role>
 			</roles>
@@ -42,8 +42,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<httpclient.version>4.5.9</httpclient.version>
 		<httpcore.version>4.4.11</httpcore.version>
+		<httpclient.version>4.5.9</httpclient.version>
 		<heanbian-crypto.version>4.0.7</heanbian-crypto.version>
 	</properties>
 
@@ -61,6 +61,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>${httpcore.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>${httpclient.version}</version>
 		</dependency>
@@ -68,11 +73,6 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient-cache</artifactId>
 			<version>${httpclient.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore</artifactId>
-			<version>${httpcore.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
