@@ -9,6 +9,12 @@
 	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>9</version>
+	</parent>
+
 	<licenses>
 		<license>
 			<name>The Apache License, Version 2.0</name>
@@ -44,16 +50,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<httpcore.version>4.4.11</httpcore.version>
 		<httpclient.version>4.5.9</httpclient.version>
-		<heanbian-crypto.version>4.0.7</heanbian-crypto.version>
+		<heanbian-crypto.version>4.0.8</heanbian-crypto.version>
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.sonatype.oss</groupId>
-			<artifactId>oss-parent</artifactId>
-			<version>9</version>
-			<type>pom</type>
-		</dependency>
 		<dependency>
 			<groupId>com.heanbian</groupId>
 			<artifactId>heanbian-crypto</artifactId>
