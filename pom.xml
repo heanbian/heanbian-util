@@ -50,6 +50,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<httpcore.version>4.4.11</httpcore.version>
 		<httpclient.version>4.5.9</httpclient.version>
+		<pinyin4j.version>2.5.1</pinyin4j.version>
 	</properties>
 
 	<dependencies>
@@ -72,6 +73,11 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId>
 			<version>${httpclient.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.belerweb</groupId>
+			<artifactId>pinyin4j</artifactId>
+			<version>${pinyin4j.version}</version>
 		</dependency>
 	</dependencies>
 </project>
