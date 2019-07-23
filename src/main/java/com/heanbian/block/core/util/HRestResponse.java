@@ -16,10 +16,10 @@ public class HRestResponse<T> extends HResponse {
 		return block(FAIL, message, data);
 	}
 
-	protected HRestResponse() {
+	public HRestResponse() {
 	}
 
-	protected HRestResponse(int code, String message, T data) {
+	public HRestResponse(int code, String message, T data) {
 		super(code, message);
 		this.data = data;
 	}

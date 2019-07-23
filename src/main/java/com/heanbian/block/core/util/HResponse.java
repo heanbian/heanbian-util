@@ -12,7 +12,7 @@ public class HResponse {
 	private String message;
 
 	public static HResponse block(int code, String message) {
-		return block(code, message);
+		return new HResponse(code, message);
 	}
 
 	public static HResponse success(String message) {
@@ -31,10 +31,10 @@ public class HResponse {
 		return block(FAIL, FAIL_STRING);
 	}
 
-	protected HResponse() {
+	public HResponse() {
 	}
 
-	protected HResponse(int code, String message) {
+	public HResponse(int code, String message) {
 		this.code = code;
 		this.message = message;
 	}
