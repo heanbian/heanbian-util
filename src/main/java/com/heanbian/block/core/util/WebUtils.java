@@ -8,7 +8,7 @@ import java.util.Objects;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.util.EntityUtils;
 
-public class HttpUtils {
+public class WebUtils {
 
 	public static HResponse<?> doGet(String urlPart) {
 		Objects.requireNonNull(urlPart, "urlPart must not be null");
