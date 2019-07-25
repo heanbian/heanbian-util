@@ -1,6 +1,6 @@
-package com.heanbian.block.core.util;
+package com.heanbian.block.reactive.util;
 
-public final class HeanbianUtils {
+public final class WebUtils {
 
 	public static String deepToString(Object[] a) {
 		if (a == null) {

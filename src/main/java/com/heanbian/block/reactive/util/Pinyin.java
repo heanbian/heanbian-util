@@ -1,4 +1,4 @@
-package com.heanbian.block.core.util;
+package com.heanbian.block.reactive.util;
 
 import java.util.Objects;
 
@@ -9,7 +9,7 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
-public final class HPinyin {
+public final class Pinyin {
 
 	public static String pinyin(String text) {
 		Objects.requireNonNull(text, "text must not be null");

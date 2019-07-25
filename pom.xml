@@ -6,7 +6,7 @@
 
 	<groupId>com.heanbian</groupId>
 	<artifactId>heanbian-core</artifactId>
-	<version>1.0.4</version>
+	<version>5.0.0</version>
 	<packaging>jar</packaging>
 
 	<parent>
@@ -52,7 +52,7 @@
 		<httpcore.version>4.4.11</httpcore.version>
 		<httpclient.version>4.5.9</httpclient.version>
 		<pinyin4j.version>2.5.1</pinyin4j.version>
-		<jackson-annotation.version>2.9.9</jackson-annotation.version>
+		<jackson-annotation.version>2.10.0.pr1</jackson-annotation.version>
 	</properties>
 
 	<dependencies>

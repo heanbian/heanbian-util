@@ -1,4 +1,4 @@
-package com.heanbian.block.core.util;
+package com.heanbian.block.reactive.util;
 
 import java.io.Reader;
 import java.io.StringReader;
@@ -7,7 +7,7 @@ import java.util.Objects;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
-public class HXmlUtils {
+public class XmlUtils {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T parseXml(String xmlString, Class<T> clazz) {

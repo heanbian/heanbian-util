@@ -1,4 +1,4 @@
-package com.heanbian.block.core.util;
+package com.heanbian.block.reactive.util;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
@@ -6,7 +6,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
-public class HWorkerId {
+public class WorkerId {
 	
 	private final static long twepoch = 12888349746579L;
 	// 机器标识位数
@@ -33,17 +33,17 @@ public class HWorkerId {
 	// 进程编码
 	private long processId = 1L;
 	private static long processMask = -1L ^ (-1L << datacenterIdBits);
-	private static HWorkerId keyWorker = null;
+	private static WorkerId keyWorker = null;
 
 	static {
-		keyWorker = new HWorkerId();
+		keyWorker = new WorkerId();
 	}
 
 	public static synchronized String id() {
 		return Long.toString(keyWorker.nextId());
 	}
 
-	private HWorkerId() {
+	private WorkerId() {
 		this.workerId = getMachineNumber();
 		RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
 		this.processId = Long.valueOf(runtimeMXBean.getName().split("@")[0]).longValue();

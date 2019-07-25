@@ -1,4 +1,4 @@
-package com.heanbian.block.core.util;
+package com.heanbian.block.reactive.util;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "response")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class HXmlResponse {
+public class XmlResponse {
 
 	public static final int SUCCESS = 0;
 	public static final String SUCCESS_STRING = "success";
@@ -21,30 +21,30 @@ public class HXmlResponse {
 	@XmlElement(name = "message")
 	private String message;
 
-	public static HXmlResponse block(int code, String message) {
+	public static XmlResponse block(int code, String message) {
 		return block(code, message);
 	}
 
-	public static HXmlResponse success(String message) {
+	public static XmlResponse success(String message) {
 		return block(SUCCESS, message);
 	}
 
-	public static HXmlResponse success() {
+	public static XmlResponse success() {
 		return block(SUCCESS, SUCCESS_STRING);
 	}
 
-	public static HXmlResponse fail(String message) {
+	public static XmlResponse fail(String message) {
 		return block(FAIL, message);
 	}
 
-	public static HXmlResponse fail() {
+	public static XmlResponse fail() {
 		return block(FAIL, FAIL_STRING);
 	}
 
-	protected HXmlResponse() {
+	protected XmlResponse() {
 	}
 
-	protected HXmlResponse(int code, String message) {
+	protected XmlResponse(int code, String message) {
 		this.code = code;
 		this.message = message;
 	}
@@ -53,7 +53,7 @@ public class HXmlResponse {
 		return code;
 	}
 
-	public HXmlResponse setCode(int code) {
+	public XmlResponse setCode(int code) {
 		this.code = code;
 		return this;
 	}
@@ -62,7 +62,7 @@ public class HXmlResponse {
 		return message;
 	}
 
-	public HXmlResponse setMessage(String message) {
+	public XmlResponse setMessage(String message) {
 		this.message = message;
 		return this;
 	}

@@ -1,11 +1,11 @@
-package com.heanbian.block.core.util;
+package com.heanbian.block.reactive.util;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class HResponse<T> {
+public class RestResponse<T> {
 
 	public static final int SUCCESS = 0;
 	public static final String SUCCESS_STRING = "success";
@@ -17,41 +17,41 @@ public class HResponse<T> {
 	private String message;
 	private T data;
 
-	public static <T> HResponse<T> block(int code, String message, T data) {
-		return new HResponse<>(code, message, data);
+	public static <T> RestResponse<T> block(int code, String message, T data) {
+		return new RestResponse<>(code, message, data);
 	}
 
-	public static <T> HResponse<T> block(int code, String message) {
+	public static <T> RestResponse<T> block(int code, String message) {
 		return block(code, message, null);
 	}
 
-	public static <T> HResponse<T> success(String message, T data) {
+	public static <T> RestResponse<T> success(String message, T data) {
 		return block(SUCCESS, message, data);
 	}
 
-	public static <T> HResponse<T> success(String message) {
+	public static <T> RestResponse<T> success(String message) {
 		return block(SUCCESS, message);
 	}
 
-	public static <T> HResponse<T> success() {
+	public static <T> RestResponse<T> success() {
 		return block(SUCCESS, SUCCESS_STRING);
 	}
 
-	public static <T> HResponse<T> fail(String message, T data) {
+	public static <T> RestResponse<T> fail(String message, T data) {
 		return block(FAIL, message, data);
 	}
 
-	public static <T> HResponse<T> fail(String message) {
+	public static <T> RestResponse<T> fail(String message) {
 		return block(FAIL, message);
 	}
 
-	public static <T> HResponse<T> fail() {
+	public static <T> RestResponse<T> fail() {
 		return block(FAIL, FAIL_STRING);
 	}
 
-	public HResponse() {}
+	public RestResponse() {}
 
-	public HResponse(int code, String message, T data) {
+	public RestResponse(int code, String message, T data) {
 		this.code = code;
 		this.message = message;
 		this.data = data;
@@ -61,7 +61,7 @@ public class HResponse<T> {
 		return code;
 	}
 
-	public HResponse<T> setCode(int code) {
+	public RestResponse<T> setCode(int code) {
 		this.code = code;
 		return this;
 	}
@@ -70,7 +70,7 @@ public class HResponse<T> {
 		return message;
 	}
 
-	public HResponse<T> setMessage(String message) {
+	public RestResponse<T> setMessage(String message) {
 		this.message = message;
 		return this;
 	}
@@ -79,7 +79,7 @@ public class HResponse<T> {
 		return data;
 	}
 
-	public HResponse<T> setData(T data) {
+	public RestResponse<T> setData(T data) {
 		this.data = data;
 		return this;
 	}

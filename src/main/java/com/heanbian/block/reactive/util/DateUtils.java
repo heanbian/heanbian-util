@@ -1,4 +1,4 @@
-package com.heanbian.block.core.util;
+package com.heanbian.block.reactive.util;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public final class HDateUtils {
+public final class DateUtils {
 
 	public static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public static final String DEFAULT_FORMAT_DATE = "yyyy-MM-dd";
@@ -20,7 +20,7 @@ public final class HDateUtils {
 	public static final String DEFAULT_FORMAT_DATE_DENSE = "yyyyMMdd";
 	public static final String DEFAULT_FORMAT_TIME_DENSE = "HHmmss";
 
-	private HDateUtils() {
+	private DateUtils() {
 	}
 
 	public static String now(final String pattern) {

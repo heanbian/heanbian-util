@@ -1,4 +1,4 @@
-package com.heanbian.block.core.util;
+package com.heanbian.block.reactive.util;
 
 import java.net.URI;
 import java.net.URL;
@@ -34,10 +34,10 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 
-public class HCloseableHttpClient {
+public class ReactiveCloseableHttpClient {
 	private static SSLConnectionSocketFactory socketFactory;
 
-	public static CloseableHttpResponse doHttpGet(String urlPart) {
+	protected static CloseableHttpResponse doHttpGet(String urlPart) {
 		Objects.requireNonNull(urlPart, "urlPart must not be null");
 		try {
 			RequestConfig config = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD_STRICT).build();
@@ -51,7 +51,7 @@ public class HCloseableHttpClient {
 		}
 	}
 
-	public static CloseableHttpResponse doHttpsGet(String urlPart) {
+	protected static CloseableHttpResponse doHttpsGet(String urlPart) {
 		Objects.requireNonNull(urlPart, "urlPart must not be null");
 		try {
 			enableSSL();
@@ -74,7 +74,7 @@ public class HCloseableHttpClient {
 		}
 	}
 
-	public static CloseableHttpResponse doHttpPost(String url, String part) {
+	protected static CloseableHttpResponse doHttpPost(String url, String part) {
 		Objects.requireNonNull(url, "url must not be null");
 		Objects.requireNonNull(part, "part must not be null");
 		try {
@@ -91,7 +91,7 @@ public class HCloseableHttpClient {
 		}
 	}
 
-	public static CloseableHttpResponse doHttpsPost(String url, String part) {
+	protected static CloseableHttpResponse doHttpsPost(String url, String part) {
 		Objects.requireNonNull(url, "url must not be null");
 		Objects.requireNonNull(part, "part must not be null");
 		try {
@@ -117,7 +117,7 @@ public class HCloseableHttpClient {
 		}
 	}
 
-	public static CloseableHttpResponse doHttpPost(String url, Map<String, String> part) {
+	protected static CloseableHttpResponse doHttpPost(String url, Map<String, String> part) {
 		Objects.requireNonNull(url, "url must not be null");
 		Objects.requireNonNull(part, "part must not be null");
 		try {
@@ -138,7 +138,7 @@ public class HCloseableHttpClient {
 		}
 	}
 
-	public static CloseableHttpResponse doHttpsPost(String url, Map<String, String> part) {
+	protected static CloseableHttpResponse doHttpsPost(String url, Map<String, String> part) {
 		Objects.requireNonNull(url, "url must not be null");
 		Objects.requireNonNull(part, "part must not be null");
 		try {
