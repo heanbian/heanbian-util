@@ -10,7 +10,7 @@ public class RestResponse<T> {
 	private static final int S = 0;
 	private static final int F = 1;
 	private static final String SS = "success";
-	private static final String FS = "fail";
+	private static final String FF = "fail";
 
 	private int code;
 	private String message;
@@ -48,7 +48,7 @@ public class RestResponse<T> {
 	}
 
 	public static <T> RestResponse<T> fail() {
-		return block(F, FS);
+		return block(F, FF);
 	}
 
 	public RestResponse() {
