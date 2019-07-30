@@ -7,15 +7,17 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RestResponse<T> {
 
-	public static final int SUCCESS = 0;
-	public static final String SUCCESS_STRING = "success";
-
-	public static final int FAIL = 1;
-	public static final String FAIL_STRING = "fail";
+	private static final int S = 0;
+	private static final int F = 1;
+	private static final String SS = "success";
+	private static final String FS = "fail";
 
 	private int code;
 	private String message;
 	private T data;
+
+	public static final RestResponse<String> SUCCESS = RestResponse.success();
+	public static final RestResponse<String> FAIL = RestResponse.fail();
 
 	public static <T> RestResponse<T> block(int code, String message, T data) {
 		return new RestResponse<>(code, message, data);
@@ -26,30 +28,31 @@ public class RestResponse<T> {
 	}
 
 	public static <T> RestResponse<T> success(String message, T data) {
-		return block(SUCCESS, message, data);
+		return block(S, message, data);
 	}
 
 	public static <T> RestResponse<T> success(String message) {
-		return block(SUCCESS, message);
+		return block(S, message);
 	}
 
 	public static <T> RestResponse<T> success() {
-		return block(SUCCESS, SUCCESS_STRING);
+		return block(S, SS);
 	}
 
 	public static <T> RestResponse<T> fail(String message, T data) {
-		return block(FAIL, message, data);
+		return block(F, message, data);
 	}
 
 	public static <T> RestResponse<T> fail(String message) {
-		return block(FAIL, message);
+		return block(F, message);
 	}
 
 	public static <T> RestResponse<T> fail() {
-		return block(FAIL, FAIL_STRING);
+		return block(F, FS);
 	}
 
-	public RestResponse() {}
+	public RestResponse() {
+	}
 
 	public RestResponse(int code, String message, T data) {
 		this.code = code;
