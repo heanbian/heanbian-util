@@ -34,7 +34,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 
-public class ReactiveCloseableHttpClient {
+public class Http {
 	private static SSLConnectionSocketFactory socketFactory;
 
 	protected static CloseableHttpResponse doHttpGet(String urlPart) {
@@ -76,7 +76,6 @@ public class ReactiveCloseableHttpClient {
 
 	protected static CloseableHttpResponse doHttpPost(String url, String part) {
 		Objects.requireNonNull(url, "url must not be null");
-		Objects.requireNonNull(part, "part must not be null");
 		try {
 			RequestConfig config = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD_STRICT).build();
 			CloseableHttpClient client = HttpClients.custom().setDefaultRequestConfig(config).build();
@@ -93,7 +92,6 @@ public class ReactiveCloseableHttpClient {
 
 	protected static CloseableHttpResponse doHttpsPost(String url, String part) {
 		Objects.requireNonNull(url, "url must not be null");
-		Objects.requireNonNull(part, "part must not be null");
 		try {
 			enableSSL();
 			RequestConfig config = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD_STRICT)
@@ -119,7 +117,6 @@ public class ReactiveCloseableHttpClient {
 
 	protected static CloseableHttpResponse doHttpPost(String url, Map<String, String> part) {
 		Objects.requireNonNull(url, "url must not be null");
-		Objects.requireNonNull(part, "part must not be null");
 		try {
 			RequestConfig config = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD_STRICT).build();
 			CloseableHttpClient client = HttpClients.custom().setDefaultRequestConfig(config).build();
@@ -140,7 +137,6 @@ public class ReactiveCloseableHttpClient {
 
 	protected static CloseableHttpResponse doHttpsPost(String url, Map<String, String> part) {
 		Objects.requireNonNull(url, "url must not be null");
-		Objects.requireNonNull(part, "part must not be null");
 		try {
 			enableSSL();
 			RequestConfig config = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD_STRICT)

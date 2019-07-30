@@ -9,8 +9,8 @@ public class RestResponse<T> {
 
 	private static final int S = 0;
 	private static final int F = 1;
-	private static final String SS = "success";
-	private static final String FF = "fail";
+	public static final String SS = "success";
+	public static final String FF = "fail";
 
 	private int code;
 	private String message;
