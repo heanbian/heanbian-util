@@ -52,20 +52,21 @@
 		<httpcore.version>4.4.11</httpcore.version>
 		<httpclient.version>4.5.9</httpclient.version>
 		<pinyin4j.version>2.5.1</pinyin4j.version>
-		<jackson-annotation.version>2.10.0.pr1</jackson-annotation.version>
+		<jackson.annotations.version>2.10.0.pr1</jackson.annotations.version>
+		<jackson.databind.version>${jackson.annotations.version}</jackson.databind.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>${jackson-annotation.version}</version>
+			<version>${jackson.annotations.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>${jackson-annotation.version}</version>
+			<version>${jackson.databind.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
