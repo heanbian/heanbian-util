@@ -10,6 +10,10 @@ import org.apache.http.util.EntityUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * @author Heanbian
+ * @see Http
+ */
 public final class HttpUtils {
 
 	private static ObjectMapper objectMapper = new ObjectMapper();
@@ -23,8 +27,7 @@ public final class HttpUtils {
 		Objects.requireNonNull(valueType, "valueType must not be null");
 		CloseableHttpResponse response = null;
 		try {
-			response = urlPart.startsWith("https://") ? Http.doHttpsGet(urlPart)
-					: Http.doHttpGet(urlPart);
+			response = urlPart.startsWith("https://") ? Http.doHttpsGet(urlPart) : Http.doHttpGet(urlPart);
 			return RestResponse.block(response.getStatusLine().getStatusCode(), RestResponse.SS, objectMapper
 					.readValue(EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8), valueType));
 		} catch (Exception e) {
@@ -48,8 +51,7 @@ public final class HttpUtils {
 		Objects.requireNonNull(valueType, "valueType must not be null");
 		CloseableHttpResponse response = null;
 		try {
-			response = url.startsWith("https://") ? Http.doHttpsPost(url, part)
-					: Http.doHttpPost(url, part);
+			response = url.startsWith("https://") ? Http.doHttpsPost(url, part) : Http.doHttpPost(url, part);
 			return RestResponse.block(response.getStatusLine().getStatusCode(), RestResponse.SS, objectMapper
 					.readValue(EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8), valueType));
 		} catch (Exception e) {
@@ -73,8 +75,7 @@ public final class HttpUtils {
 		Objects.requireNonNull(valueType, "valueType must not be null");
 		CloseableHttpResponse response = null;
 		try {
-			response = url.startsWith("https://") ? Http.doHttpsPost(url, part)
-					: Http.doHttpPost(url, part);
+			response = url.startsWith("https://") ? Http.doHttpsPost(url, part) : Http.doHttpPost(url, part);
 			return RestResponse.block(response.getStatusLine().getStatusCode(), RestResponse.SS, objectMapper
 					.readValue(EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8), valueType));
 		} catch (Exception e) {
