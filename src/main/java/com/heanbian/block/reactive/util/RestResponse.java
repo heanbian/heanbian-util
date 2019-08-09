@@ -1,10 +1,5 @@
 package com.heanbian.block.reactive.util;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class RestResponse<T> {
 
 	private static final int S = 0;
@@ -51,8 +46,7 @@ public class RestResponse<T> {
 		return block(F, FF);
 	}
 
-	public RestResponse() {
-	}
+	public RestResponse() {}
 
 	public RestResponse(int code, String message, T data) {
 		this.code = code;
