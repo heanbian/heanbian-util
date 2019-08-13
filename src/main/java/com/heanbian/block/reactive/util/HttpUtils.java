@@ -1,12 +1,7 @@
 package com.heanbian.block.reactive.util;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.util.EntityUtils;
 
 /**
  * @author Heanbian
@@ -14,55 +9,30 @@ import org.apache.http.util.EntityUtils;
  */
 public final class HttpUtils {
 
-	public static RestResponse<String> doGet(String urlPart) {
-		Objects.requireNonNull(urlPart, "urlPart must not be null");
-		CloseableHttpResponse response = null;
+	public static String doGet(String url, Map<String, String> header) {
 		try {
-			response = Http.doGet(urlPart);
-			return RestResponse.block(response.getStatusLine().getStatusCode(), RestResponse.SS,
-					EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8));
-		} catch (Exception e) {
-			return RestResponse.block(response.getStatusLine().getStatusCode(), RestResponse.FF, e.getMessage());
-		} finally {
-			if (response != null) {
-				try {
-					response.close();
-				} catch (IOException e) {
-				}
-			}
+			return Http.doGet(url, header);
+		} catch (Exception e) {// Ignore
 		}
+		return null;
 	}
 
-	public static RestResponse<String> doPost(String url, String json_params) {
-		return doPost(url, json_params, null, null);
+	public static String doPost(String url) {
+		return doPost(url, null);
 	}
 
-	public static RestResponse<String> doPost(String url, Map<String, String> params) {
-		return doPost(url, null, params, null);
+	public static String doPost(String url, String json) {
+		Map<String, String> header = new HashMap<>(1);
+		header.put("Content-Type", "application/json;charset=UTF-8");
+		return doPost(url, json, header);
 	}
 
-	public static RestResponse<String> doPost(String url, Map<String, String> params, Map<String, String> headers) {
-		return doPost(url, null, params, headers);
-	}
-
-	public static RestResponse<String> doPost(String url, String json_params, Map<String, String> params,
-			Map<String, String> headers) {
-		Objects.requireNonNull(url, "url must not be null");
-		CloseableHttpResponse response = null;
+	public static String doPost(String url, String args, Map<String, String> header) {
 		try {
-			response = Http.doPost(url, json_params, params, headers);
-			return RestResponse.block(response.getStatusLine().getStatusCode(), RestResponse.SS,
-					EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8));
-		} catch (Exception e) {
-			return RestResponse.block(response.getStatusLine().getStatusCode(), RestResponse.FF, e.getMessage());
-		} finally {
-			if (response != null) {
-				try {
-					response.close();
-				} catch (IOException e) {
-				}
-			}
+			return Http.doPost(url, args, header);
+		} catch (Exception e) {// Ignore
 		}
+		return null;
 	}
 
 }
