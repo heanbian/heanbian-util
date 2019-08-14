@@ -20,9 +20,6 @@ public final class DateUtils {
 	public static final String DEFAULT_FORMAT_DATE_DENSE = "yyyyMMdd";
 	public static final String DEFAULT_FORMAT_TIME_DENSE = "HHmmss";
 
-	private DateUtils() {
-	}
-
 	public static String now(final String pattern) {
 		Objects.requireNonNull(pattern, "pattern must not be null");
 		return ZonedDateTime.now().format(DateTimeFormatter.ofPattern(pattern));
@@ -56,12 +53,12 @@ public final class DateUtils {
 		return getPasswordExpireTime(90);
 	}
 
-	public static long getPasswordExpireTime(long day) {
+	public static long getPasswordExpireTime(final long day) {
 		return Long.parseLong(ZonedDateTime.now(ZoneId.systemDefault()).plusDays(day)
 				.format(DateTimeFormatter.ofPattern(DEFAULT_FORMAT_DATE_DENSE)));
 	}
 
-	public static List<String> getBetweenDate(String start, String end) {
+	public static List<String> betweenDate(final String start, final String end) {
 		List<String> dates = new ArrayList<>();
 		LocalDate startDate = LocalDate.parse(start);
 		LocalDate endDate = LocalDate.parse(end);
