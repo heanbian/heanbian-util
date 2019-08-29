@@ -120,4 +120,32 @@ public final class HttpUtils {
 		return null;
 	}
 
+	public static byte[] doPost(String url, Map<String, String> header, byte[] buf) {
+		try {
+			return doPost0(url, header, buf);
+		} catch (IOException e) {// Ignore
+		} catch (InterruptedException e) {// Ignore
+		}
+		return null;
+	}
+
+	private static byte[] doPost0(String url, Map<String, String> header, byte[] buf)
+			throws IOException, InterruptedException {
+		Objects.requireNonNull(url, "url must not be empty");
+
+		HttpRequest.Builder builder = HttpRequest.newBuilder().uri(URI.create(url)).timeout(Duration.ofSeconds(30));
+		if (header != null && !header.isEmpty()) {
+			for (Entry<String, String> entry : header.entrySet()) {
+				builder.header(entry.getKey(), entry.getValue());
+			}
+		}
+
+		BodyPublisher body = BodyPublishers.ofByteArray(buf);
+
+		HttpRequest request = builder.POST(body).build();
+		HttpClient client = HttpClient.newBuilder().build();
+
+		return client.send(request, BodyHandlers.ofByteArray()).body();
+	}
+
 }
