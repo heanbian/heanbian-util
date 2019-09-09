@@ -17,38 +17,71 @@ import java.util.Objects;
 public final class HttpUtils {
 
 	public static String doGet(String url) {
-		return doGet0(url, null, null, null);
+		return doGet0(url, null, null, null, Duration.ofSeconds(30));
+	}
+
+	public static String doGet(String url, Duration timeout) {
+		return doGet0(url, null, null, null, timeout);
 	}
 
 	public static String doGet(String url, String jsonBody) {
-		return doGet0(url, jsonBody, null, null);
+		return doGet0(url, jsonBody, null, null, Duration.ofSeconds(30));
+	}
+
+	public static String doGet(String url, String jsonBody, Duration timeout) {
+		return doGet0(url, jsonBody, null, null, timeout);
+	}
+
+	public static String doGet(String url, Map<String, String> params, Duration timeout) {
+		return doGet0(url, null, params, null, timeout);
 	}
 
 	public static String doGet(String url, Map<String, String> params) {
-		return doGet0(url, null, params, null);
+		return doGet0(url, null, params, null, Duration.ofSeconds(30));
 	}
 
 	public static String doGet(String url, Map<String, String> params, Map<String, String> header) {
-		return doGet0(url, null, params, header);
+		return doGet0(url, null, params, header, Duration.ofSeconds(30));
+	}
+
+	public static String doGet(String url, Map<String, String> params, Map<String, String> header, Duration timeout) {
+		return doGet0(url, null, params, header, timeout);
 	}
 
 	public static String doPost(String url) {
-		return doPost0(url, null, null, null);
+		return doPost0(url, null, null, null, Duration.ofSeconds(30));
+	}
+
+	public static String doPost(String url, Duration timeout) {
+		return doPost0(url, null, null, null, timeout);
 	}
 
 	public static String doPost(String url, String jsonBody) {
-		return doPost0(url, jsonBody, null, null);
+		return doPost0(url, jsonBody, null, null, Duration.ofSeconds(30));
+	}
+
+	public static String doPost(String url, String jsonBody, Duration timeout) {
+		return doPost0(url, jsonBody, null, null, timeout);
 	}
 
 	public static String doPost(String url, Map<String, String> params) {
-		return doPost0(url, null, params, null);
+		return doPost0(url, null, params, null, Duration.ofSeconds(30));
+	}
+
+	public static String doPost(String url, Map<String, String> params, Duration timeout) {
+		return doPost0(url, null, params, null, timeout);
 	}
 
 	public static String doPost(String url, Map<String, String> params, Map<String, String> header) {
-		return doPost0(url, null, params, header);
+		return doPost0(url, null, params, header, Duration.ofSeconds(30));
 	}
 
-	private static String doGet0(String url, String jsonBody, Map<String, String> params, Map<String, String> header) {
+	public static String doPost(String url, Map<String, String> params, Map<String, String> header, Duration timeout) {
+		return doPost0(url, null, params, header, timeout);
+	}
+
+	private static String doGet0(String url, String jsonBody, Map<String, String> params, Map<String, String> header,
+			Duration timeout) {
 		Objects.requireNonNull(url, "url must not be empty");
 
 		if (params != null && !params.isEmpty()) {
@@ -72,7 +105,11 @@ public final class HttpUtils {
 			}
 		}
 
-		HttpRequest request = builder.uri(URI.create(url)).timeout(Duration.ofSeconds(30)).GET().build();
+		if (timeout == null) {
+			timeout = Duration.ofSeconds(30);
+		}
+
+		HttpRequest request = builder.uri(URI.create(url)).timeout(timeout).GET().build();
 		HttpClient client = HttpClient.newBuilder().build();
 
 		try {
@@ -83,10 +120,15 @@ public final class HttpUtils {
 		return null;
 	}
 
-	private static String doPost0(String url, String jsonBody, Map<String, String> params, Map<String, String> header) {
+	private static String doPost0(String url, String jsonBody, Map<String, String> params, Map<String, String> header,
+			Duration timeout) {
 		Objects.requireNonNull(url, "url must not be empty");
 
-		HttpRequest.Builder builder = HttpRequest.newBuilder().uri(URI.create(url)).timeout(Duration.ofSeconds(30));
+		if (timeout == null) {
+			timeout = Duration.ofSeconds(30);
+		}
+
+		HttpRequest.Builder builder = HttpRequest.newBuilder().uri(URI.create(url)).timeout(timeout);
 		if (header != null && !header.isEmpty()) {
 			for (Entry<String, String> entry : header.entrySet()) {
 				builder.header(entry.getKey(), entry.getValue());
@@ -121,19 +163,27 @@ public final class HttpUtils {
 	}
 
 	public static byte[] doPost(String url, Map<String, String> header, byte[] buf) {
+		return doPost(url, header, buf, Duration.ofSeconds(30));
+	}
+
+	public static byte[] doPost(String url, Map<String, String> header, byte[] buf, Duration timeout) {
 		try {
-			return doPost0(url, header, buf);
+			return doPost0(url, header, buf, timeout);
 		} catch (IOException e) {// Ignore
 		} catch (InterruptedException e) {// Ignore
 		}
 		return null;
 	}
 
-	private static byte[] doPost0(String url, Map<String, String> header, byte[] buf)
+	private static byte[] doPost0(String url, Map<String, String> header, byte[] buf, Duration timeout)
 			throws IOException, InterruptedException {
 		Objects.requireNonNull(url, "url must not be empty");
 
-		HttpRequest.Builder builder = HttpRequest.newBuilder().uri(URI.create(url)).timeout(Duration.ofSeconds(30));
+		if (timeout == null) {
+			timeout = Duration.ofSeconds(30);
+		}
+
+		HttpRequest.Builder builder = HttpRequest.newBuilder().uri(URI.create(url)).timeout(timeout);
 		if (header != null && !header.isEmpty()) {
 			for (Entry<String, String> entry : header.entrySet()) {
 				builder.header(entry.getKey(), entry.getValue());
