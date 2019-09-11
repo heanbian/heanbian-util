@@ -1,18 +1,15 @@
 package com.heanbian.block.reactive.util;
 
-public class RestResponse<T> {
+public final class RestResponse<T> {
 
-	private static final int S = 0;
-	private static final int F = 1;
-	public static final String SS = "success";
-	public static final String FF = "fail";
+	public static final int SUCCESS = 0;
+	public static final int FAIL = 1;
+	public static final String SUCCESS_STRING = "success";
+	public static final String FAIL_STRING = "fail";
 
 	private int code;
 	private String message;
 	private T data;
-
-	public static final RestResponse<String> SUCCESS = RestResponse.success();
-	public static final RestResponse<String> FAIL = RestResponse.fail();
 
 	public static <T> RestResponse<T> block(int code, String message, T data) {
 		return new RestResponse<>(code, message, data);
@@ -22,33 +19,26 @@ public class RestResponse<T> {
 		return block(code, message, null);
 	}
 
-	public static <T> RestResponse<T> success(String message, T data) {
-		return block(S, message, data);
-	}
-
-	public static <T> RestResponse<T> success(String message) {
-		return block(S, message);
+	public static <T> RestResponse<T> success(T data) {
+		return block(SUCCESS, SUCCESS_STRING, data);
 	}
 
 	public static <T> RestResponse<T> success() {
-		return block(S, SS);
+		return block(SUCCESS, SUCCESS_STRING);
 	}
 
-	public static <T> RestResponse<T> fail(String message, T data) {
-		return block(F, message, data);
-	}
-
-	public static <T> RestResponse<T> fail(String message) {
-		return block(F, message);
+	public static <T> RestResponse<T> fail(T data) {
+		return block(FAIL, FAIL_STRING, data);
 	}
 
 	public static <T> RestResponse<T> fail() {
-		return block(F, FF);
+		return block(FAIL, FAIL_STRING);
 	}
 
-	public RestResponse() {}
+	private RestResponse() {
+	}
 
-	public RestResponse(int code, String message, T data) {
+	private RestResponse(int code, String message, T data) {
 		this.code = code;
 		this.message = message;
 		this.data = data;
