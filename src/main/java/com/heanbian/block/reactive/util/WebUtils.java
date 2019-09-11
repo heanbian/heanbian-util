@@ -7,6 +7,24 @@ import java.util.Enumeration;
 
 public final class WebUtils {
 
+	/**
+	 * 除去字符串中的空白字符
+	 * 
+	 * @param raw 原字符串
+	 * @return String
+	 */
+	public static String remove(String raw) {
+		StringBuffer buf = new StringBuffer();
+		char[] ch = raw.toCharArray();
+		for (int i = 0, len = ch.length; i < len; i++) {
+			if (Character.isSpaceChar(ch[i])) {
+				continue;
+			}
+			buf.append(ch[i]);
+		}
+		return buf.toString();
+	}
+
 	public static String deepToString(Object[] a) {
 		if (a == null) {
 			return "";
