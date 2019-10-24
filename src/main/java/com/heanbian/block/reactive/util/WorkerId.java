@@ -1,78 +1,74 @@
 package com.heanbian.block.reactive.util;
 
 import java.lang.management.ManagementFactory;
-import java.lang.management.RuntimeMXBean;
+import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Enumeration;
 
 public class WorkerId {
-	
-	private final static long twepoch = 12888349746579L;
-	// 机器标识位数
+	private final static long twepoch = 1288834974657L;
 	private final static long workerIdBits = 5L;
-	// 数据中心标识位数
 	private final static long datacenterIdBits = 5L;
-	// 毫秒内自增位数
+	private final static long maxWorkerId = -1L ^ (-1L << workerIdBits);
+	private final static long maxDatacenterId = -1L ^ (-1L << datacenterIdBits);
 	private final static long sequenceBits = 12L;
-	// 机器ID偏左移12位
 	private final static long workerIdShift = sequenceBits;
-	// 数据中心ID左移17位
 	private final static long datacenterIdShift = sequenceBits + workerIdBits;
-	// 时间毫秒左移22位
 	private final static long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
-	// sequence掩码，确保sequnce不会超出上限
 	private final static long sequenceMask = -1L ^ (-1L << sequenceBits);
-	// 上次时间戳
+
 	private static long lastTimestamp = -1L;
-	// 序列
 	private long sequence = 0L;
-	// 服务器ID
-	private long workerId = 1L;
-	private static long workerMask = -1L ^ (-1L << workerIdBits);
-	// 进程编码
-	private long processId = 1L;
-	private static long processMask = -1L ^ (-1L << datacenterIdBits);
-	private static WorkerId keyWorker = null;
+	private final long workerId;
+	private final long datacenterId;
 
-	static {
-		keyWorker = new WorkerId();
+	public WorkerId() {
+		this.datacenterId = getDatacenterId(maxDatacenterId);
+		this.workerId = getMaxWorkerId(datacenterId, maxWorkerId);
 	}
 
-	public static synchronized String id() {
-		return Long.toString(keyWorker.nextId());
+	public WorkerId(long workerId, long datacenterId) {
+		if (workerId > maxWorkerId || workerId < 0) {
+			throw new IllegalArgumentException(
+					String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
+		}
+		if (datacenterId > maxDatacenterId || datacenterId < 0) {
+			throw new IllegalArgumentException(
+					String.format("datacenter Id can't be greater than %d or less than 0", maxDatacenterId));
+		}
+		this.workerId = workerId;
+		this.datacenterId = datacenterId;
 	}
 
-	private WorkerId() {
-		this.workerId = getMachineNumber();
-		RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
-		this.processId = Long.valueOf(runtimeMXBean.getName().split("@")[0]).longValue();
-		this.workerId = workerId & workerMask;
-		this.processId = processId & processMask;
+	public static String id() {
+		return Long.toString(new WorkerId().nextId());
 	}
 
-	private long nextId() {
+	public synchronized long nextId() {
 		long timestamp = timeGen();
 		if (timestamp < lastTimestamp) {
-			throw new RuntimeException("timeGen() is error.");
+			throw new RuntimeException(String.format(
+					"Clock moved backwards.  Refusing to generate id for %d milliseconds", lastTimestamp - timestamp));
 		}
+
 		if (lastTimestamp == timestamp) {
 			sequence = (sequence + 1) & sequenceMask;
 			if (sequence == 0) {
 				timestamp = tilNextMillis(lastTimestamp);
 			}
 		} else {
-			sequence = 0;
+			sequence = 0L;
 		}
 		lastTimestamp = timestamp;
-		return ((timestamp - twepoch) << timestampLeftShift) | (processId << datacenterIdShift)
+		long nextId = ((timestamp - twepoch) << timestampLeftShift) | (datacenterId << datacenterIdShift)
 				| (workerId << workerIdShift) | sequence;
+
+		return nextId;
 	}
 
 	private long tilNextMillis(final long lastTimestamp) {
-		long timestamp = timeGen();
+		long timestamp = this.timeGen();
 		while (timestamp <= lastTimestamp) {
-			timestamp = timeGen();
+			timestamp = this.timeGen();
 		}
 		return timestamp;
 	}
@@ -81,17 +77,33 @@ public class WorkerId {
 		return System.currentTimeMillis();
 	}
 
-	private long getMachineNumber() {
-		StringBuilder sb = new StringBuilder();
-		Enumeration<NetworkInterface> e = null;
-		try {
-			e = NetworkInterface.getNetworkInterfaces();
-		} catch (SocketException s) {
+	private static long getMaxWorkerId(long datacenterId, long maxWorkerId) {
+		StringBuffer mpid = new StringBuffer();
+		mpid.append(datacenterId);
+		String name = ManagementFactory.getRuntimeMXBean().getName();
+		if (!name.isEmpty()) {
+			mpid.append(name.split("@")[0]);
 		}
-		while (e.hasMoreElements()) {
-			NetworkInterface ni = e.nextElement();
-			sb.append(ni.toString());
-		}
-		return sb.toString().hashCode();
+		return (mpid.toString().hashCode() & 0xffff) % (maxWorkerId + 1);
 	}
+
+	private static long getDatacenterId(long maxDatacenterId) {
+		long id = 0L;
+		try {
+			InetAddress ip = InetAddress.getLocalHost();
+			NetworkInterface network = NetworkInterface.getByInetAddress(ip);
+			if (network == null) {
+				id = 1L;
+			} else {
+				byte[] mac = network.getHardwareAddress();
+				id = ((0x000000FF & (long) mac[mac.length - 1])
+						| (0x0000FF00 & (((long) mac[mac.length - 2]) << 8))) >> 6;
+				id = id % (maxDatacenterId + 1);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(String.format("getDatacenterId \n %s", e.getMessage()), e);
+		}
+		return id;
+	}
+
 }
