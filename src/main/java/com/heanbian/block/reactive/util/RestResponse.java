@@ -1,5 +1,11 @@
 package com.heanbian.block.reactive.util;
 
+/**
+ * 
+ * @author heanbian
+ *
+ * @param <T>
+ */
 public final class RestResponse<T> {
 
 	public static final int SUCCESS = 0;
@@ -35,10 +41,10 @@ public final class RestResponse<T> {
 		return block(FAIL, FAIL_STRING);
 	}
 
-	private RestResponse() {
+	public RestResponse() {
 	}
 
-	private RestResponse(int code, String message, T data) {
+	public RestResponse(int code, String message, T data) {
 		this.code = code;
 		this.message = message;
 		this.data = data;
