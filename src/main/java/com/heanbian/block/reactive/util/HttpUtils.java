@@ -20,24 +20,17 @@ import java.util.Objects;
  */
 public final class HttpUtils {
 
-	public static String doGet(String url) {
-		return doGet(url, Duration.ofSeconds(30));
-	}
-
-	public static String doGet(String url, Duration timeout) {
-		return doGet(url, null, null, timeout);
-	}
-
-	public static String doGet(String url, Map<String, String> params) {
-		return doGet(url, params, null);
-	}
-
-	public static String doGet(String url, Map<String, String> params, Map<String, String> header) {
-		return doGet(url, params, header, null);
-	}
-
 	public static String doGet(String url, Map<String, String> params, Map<String, String> header, Duration timeout) {
 		return internalGet(url, params, header, timeout);
+	}
+
+	public static String doPost(String url, Map<String, String> params, Map<String, String> header, Duration timeout) {
+		return internalPost(url, params, header, timeout);
+	}
+
+	public static String doPost(String url, Map<String, String> header, String body, Duration timeout) {
+		BodyPublisher dodyPublisher = (body == null) ? BodyPublishers.noBody() : BodyPublishers.ofString(body);
+		return internalPost(url, header, dodyPublisher, timeout);
 	}
 
 	private static String internalGet(String url, Map<String, String> params, Map<String, String> header,
@@ -72,28 +65,21 @@ public final class HttpUtils {
 		return null;
 	}
 
-	public static String doPost(String url) {
-		return doPost(url, Duration.ofSeconds(30));
-	}
-
-	public static String doPost(String url, Duration timeout) {
-		return doPost(url, null, null, timeout);
-	}
-
-	public static String doPost(String url, Map<String, String> params) {
-		return doPost(url, params, null);
-	}
-
-	public static String doPost(String url, Map<String, String> params, Map<String, String> header) {
-		return doPost(url, params, header, null);
-	}
-
-	public static String doPost(String url, Map<String, String> params, Map<String, String> header, Duration timeout) {
-		return internalPost(url, params, header, timeout);
-	}
-
 	private static String internalPost(String url, Map<String, String> params, Map<String, String> header,
 			Duration timeout) {
+		BodyPublisher body = BodyPublishers.noBody();
+
+		if (params != null && !params.isEmpty()) {
+			StringBuilder s = new StringBuilder();
+			params.forEach((k, v) -> {
+				s.append("&").append(k).append("=").append(URLEncoder.encode(v, Charset.defaultCharset()));
+			});
+			body = BodyPublishers.ofString(s.substring(1));
+		}
+		return internalPost(url, header, body, timeout);
+	}
+
+	private static String internalPost(String url, Map<String, String> header, BodyPublisher body, Duration timeout) {
 		Objects.requireNonNull(url, "url must not be empty");
 
 		if (timeout == null) {
@@ -103,16 +89,6 @@ public final class HttpUtils {
 		HttpRequest.Builder builder = HttpRequest.newBuilder().uri(URI.create(url)).timeout(timeout);
 		if (header != null && !header.isEmpty()) {
 			header.forEach(builder::header);
-		}
-
-		BodyPublisher body = BodyPublishers.noBody();
-
-		if (params != null && !params.isEmpty()) {
-			StringBuilder s = new StringBuilder();
-			params.forEach((k, v) -> {
-				s.append("&").append(k).append("=").append(URLEncoder.encode(v, Charset.defaultCharset()));
-			});
-			body = BodyPublishers.ofString(s.substring(1));
 		}
 
 		HttpRequest request = builder.POST(body).build();
