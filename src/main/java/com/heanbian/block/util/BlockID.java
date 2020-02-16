@@ -1,10 +1,10 @@
-package com.heanbian.block.reactive.util;
+package com.heanbian.block.util;
 
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 
-public class WorkerId {
+public class BlockID {
 	private final static long twepoch = 1288834974657L;
 	private final static long workerIdBits = 5L;
 	private final static long datacenterIdBits = 5L;
@@ -21,12 +21,12 @@ public class WorkerId {
 	private final long workerId;
 	private final long datacenterId;
 
-	public WorkerId() {
+	public BlockID() {
 		this.datacenterId = getDatacenterId(maxDatacenterId);
 		this.workerId = getMaxWorkerId(datacenterId, maxWorkerId);
 	}
 
-	public WorkerId(long workerId, long datacenterId) {
+	public BlockID(long workerId, long datacenterId) {
 		if (workerId > maxWorkerId || workerId < 0) {
 			throw new IllegalArgumentException(
 					String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
@@ -40,7 +40,7 @@ public class WorkerId {
 	}
 
 	public static String id() {
-		return Long.toString(new WorkerId().nextId());
+		return Long.toString(new BlockID().nextId());
 	}
 
 	public synchronized long nextId() {

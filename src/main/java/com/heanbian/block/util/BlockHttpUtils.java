@@ -1,4 +1,4 @@
-package com.heanbian.block.reactive.util;
+package com.heanbian.block.util;
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,7 +18,7 @@ import java.util.Objects;
  * @author heanbian
  *
  */
-public final class HttpUtils {
+public final class BlockHttpUtils {
 
 	public static String doGet(String url, Map<String, String> params, Map<String, String> header, Duration timeout) {
 		return internalGet(url, params, header, timeout);
@@ -102,6 +102,6 @@ public final class HttpUtils {
 		return null;
 	}
 
-	private HttpUtils() {
+	private BlockHttpUtils() {
 	}
 }

@@ -1,12 +1,11 @@
-package com.heanbian.block.reactive.util;
+package com.heanbian.block.util;
 
 /**
  * 
  * @author heanbian
  *
- * @param <T>
  */
-public final class RestResponse<T> {
+public final class BlockResponse<T> {
 
 	public static final int SUCCESS = 0;
 	public static final int FAIL = 1;
@@ -17,34 +16,34 @@ public final class RestResponse<T> {
 	private String message;
 	private T data;
 
-	public static <T> RestResponse<T> block(int code, String message, T data) {
-		return new RestResponse<>(code, message, data);
+	public static <T> BlockResponse<T> block(int code, String message, T data) {
+		return new BlockResponse<>(code, message, data);
 	}
 
-	public static <T> RestResponse<T> block(int code, String message) {
+	public static <T> BlockResponse<T> block(int code, String message) {
 		return block(code, message, null);
 	}
 
-	public static <T> RestResponse<T> success(T data) {
+	public static <T> BlockResponse<T> success(T data) {
 		return block(SUCCESS, SUCCESS_STRING, data);
 	}
 
-	public static <T> RestResponse<T> success() {
+	public static <T> BlockResponse<T> success() {
 		return block(SUCCESS, SUCCESS_STRING);
 	}
 
-	public static <T> RestResponse<T> fail(T data) {
+	public static <T> BlockResponse<T> fail(T data) {
 		return block(FAIL, FAIL_STRING, data);
 	}
 
-	public static <T> RestResponse<T> fail() {
+	public static <T> BlockResponse<T> fail() {
 		return block(FAIL, FAIL_STRING);
 	}
 
-	public RestResponse() {
+	public BlockResponse() {
 	}
 
-	public RestResponse(int code, String message, T data) {
+	public BlockResponse(int code, String message, T data) {
 		this.code = code;
 		this.message = message;
 		this.data = data;
@@ -54,7 +53,7 @@ public final class RestResponse<T> {
 		return code;
 	}
 
-	public RestResponse<T> setCode(int code) {
+	public BlockResponse<T> setCode(int code) {
 		this.code = code;
 		return this;
 	}
@@ -63,7 +62,7 @@ public final class RestResponse<T> {
 		return message;
 	}
 
-	public RestResponse<T> setMessage(String message) {
+	public BlockResponse<T> setMessage(String message) {
 		this.message = message;
 		return this;
 	}
@@ -72,7 +71,7 @@ public final class RestResponse<T> {
 		return data;
 	}
 
-	public RestResponse<T> setData(T data) {
+	public BlockResponse<T> setData(T data) {
 		this.data = data;
 		return this;
 	}

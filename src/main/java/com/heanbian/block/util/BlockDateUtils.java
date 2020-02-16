@@ -1,4 +1,4 @@
-package com.heanbian.block.reactive.util;
+package com.heanbian.block.util;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -10,7 +10,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public final class DateUtils {
+/**
+ * 
+ * @author heanbian
+ *
+ */
+public final class BlockDateUtils {
 
 	public static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public static final String DEFAULT_FORMAT_DATE = "yyyy-MM-dd";
@@ -49,16 +54,11 @@ public final class DateUtils {
 		return Long.parseLong(now(DEFAULT_FORMAT_TIME_DENSE));
 	}
 
-	public static long getPasswordExpireTime() {
-		return getPasswordExpireTime(90);
+	public static ZonedDateTime addDay(final long day) {
+		return ZonedDateTime.now(ZoneId.systemDefault()).plusDays(day);
 	}
 
-	public static long getPasswordExpireTime(final long day) {
-		return Long.parseLong(ZonedDateTime.now(ZoneId.systemDefault()).plusDays(day)
-				.format(DateTimeFormatter.ofPattern(DEFAULT_FORMAT_DATE_DENSE)));
-	}
-
-	public static List<String> betweenDate(final String start, final String end) {
+	public static List<String> between(final String start, final String end) {
 		List<String> dates = new ArrayList<>();
 		LocalDate startDate = LocalDate.parse(start);
 		LocalDate endDate = LocalDate.parse(end);
