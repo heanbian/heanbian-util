@@ -38,6 +38,10 @@ public final class BlockDateUtils {
 		return now(DEFAULT_FORMAT_DATE);
 	}
 
+	public static String getDate(final int day) {
+		return addDay(day).format(DateTimeFormatter.ofPattern(DEFAULT_FORMAT_DATE));
+	}
+
 	public static String getTime() {
 		return now(DEFAULT_FORMAT_TIME);
 	}
@@ -48,6 +52,10 @@ public final class BlockDateUtils {
 
 	public static long getDateLong() {
 		return Long.parseLong(now(DEFAULT_FORMAT_DATE_DENSE));
+	}
+
+	public static long getDateLong(final int day) {
+		return Long.parseLong(addDay(day).format(DateTimeFormatter.ofPattern(DEFAULT_FORMAT_DATE_DENSE)));
 	}
 
 	public static long getTimeLong() {
