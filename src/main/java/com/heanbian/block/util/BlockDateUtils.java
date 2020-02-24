@@ -8,6 +8,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.SplittableRandom;
 import java.util.stream.Stream;
 
 /**
@@ -56,6 +57,18 @@ public final class BlockDateUtils {
 
 	public static long getDateLong(final int day) {
 		return Long.parseLong(addDay(day).format(DateTimeFormatter.ofPattern(DEFAULT_FORMAT_DATE_DENSE)));
+	}
+
+	public static long getRandomDateLong(final int bound) {
+		SplittableRandom random = new SplittableRandom();
+		int c = random.nextInt(bound);
+		return getDateLong(-c);
+	}
+
+	public static String getRandomDate(final int bound) {
+		SplittableRandom random = new SplittableRandom();
+		int c = random.nextInt(bound);
+		return getDate(-c);
 	}
 
 	public static long getTimeLong() {
