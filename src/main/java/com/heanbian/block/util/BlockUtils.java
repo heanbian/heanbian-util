@@ -1,6 +1,18 @@
 package com.heanbian.block.util;
 
+import java.util.SplittableRandom;
+
 public final class BlockUtils {
+
+	public static int randomInt(final int bound) {
+		SplittableRandom random = new SplittableRandom();
+		return random.nextInt(bound);
+	}
+
+	public static long randomLong(final int bound) {
+		SplittableRandom random = new SplittableRandom();
+		return random.nextLong(bound);
+	}
 
 	public static String remove(String rawString) {
 		StringBuffer buf = new StringBuffer();
