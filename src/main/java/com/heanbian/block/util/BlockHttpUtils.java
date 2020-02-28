@@ -1,5 +1,7 @@
 package com.heanbian.block.util;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -11,7 +13,6 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 
@@ -35,7 +36,7 @@ public final class BlockHttpUtils {
 
 	private static String internalGet(String url, Map<String, String> params, Map<String, String> header,
 			Duration timeout) {
-		Objects.requireNonNull(url, "url must not be empty");
+		requireNonNull(url, "url must not be empty");
 
 		if (timeout == null) {
 			timeout = Duration.ofSeconds(30);
@@ -80,7 +81,7 @@ public final class BlockHttpUtils {
 	}
 
 	private static String internalPost(String url, Map<String, String> header, BodyPublisher body, Duration timeout) {
-		Objects.requireNonNull(url, "url must not be empty");
+		requireNonNull(url, "url must not be empty");
 
 		if (timeout == null) {
 			timeout = Duration.ofSeconds(30);

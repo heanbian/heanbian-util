@@ -1,5 +1,7 @@
 package com.heanbian.block.util;
 
+import static java.lang.String.format;
+
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -29,11 +31,11 @@ public class BlockID {
 	public BlockID(long workerId, long datacenterId) {
 		if (workerId > maxWorkerId || workerId < 0) {
 			throw new IllegalArgumentException(
-					String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
+					format("worker Id can't be greater than %d or less than 0", maxWorkerId));
 		}
 		if (datacenterId > maxDatacenterId || datacenterId < 0) {
 			throw new IllegalArgumentException(
-					String.format("datacenter Id can't be greater than %d or less than 0", maxDatacenterId));
+					format("datacenter Id can't be greater than %d or less than 0", maxDatacenterId));
 		}
 		this.workerId = workerId;
 		this.datacenterId = datacenterId;
@@ -46,8 +48,8 @@ public class BlockID {
 	public synchronized long nextId() {
 		long timestamp = timeGen();
 		if (timestamp < lastTimestamp) {
-			throw new RuntimeException(String.format(
-					"Clock moved backwards.  Refusing to generate id for %d milliseconds", lastTimestamp - timestamp));
+			throw new RuntimeException(format("Clock moved backwards.  Refusing to generate id for %d milliseconds",
+					lastTimestamp - timestamp));
 		}
 
 		if (lastTimestamp == timestamp) {

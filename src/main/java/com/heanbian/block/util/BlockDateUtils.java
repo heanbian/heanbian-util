@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import static java.util.Objects.requireNonNull;
 import java.util.SplittableRandom;
 import java.util.stream.Stream;
 
@@ -27,7 +27,7 @@ public final class BlockDateUtils {
 	public static final String DEFAULT_FORMAT_TIME_DENSE = "HHmmss";
 
 	public static String now(final String pattern) {
-		Objects.requireNonNull(pattern, "pattern must not be null");
+		requireNonNull(pattern, "pattern must not be null");
 		return ZonedDateTime.now().format(DateTimeFormatter.ofPattern(pattern));
 	}
 
