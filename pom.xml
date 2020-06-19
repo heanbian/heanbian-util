@@ -11,7 +11,7 @@
 
 	<name>heanbian-core</name>
 	<url>https://github.com/heanbian/heanbian-core</url>
-	<description>Heanbian core components.</description>
+	<description>Heanbian core component.</description>
 	<inceptionYear>2019</inceptionYear>
 
 	<licenses>
