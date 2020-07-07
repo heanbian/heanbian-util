@@ -29,6 +29,10 @@ public final class BlockHttpUtils {
 		return internalPost(url, params, header, timeout);
 	}
 
+	public static String doPost(String url, Duration timeout) {
+		return internalPost(url, null, BodyPublishers.noBody(), timeout);
+	}
+
 	public static String doPost(String url, Map<String, String> header, String body, Duration timeout) {
 		BodyPublisher dodyPublisher = (body == null) ? BodyPublishers.noBody() : BodyPublishers.ofString(body);
 		return internalPost(url, header, dodyPublisher, timeout);

@@ -6,13 +6,18 @@
 
 	<groupId>com.heanbian</groupId>
 	<artifactId>heanbian-core</artifactId>
-	<version>11.2.1</version>
+	<version>11.2.2</version>
 	<packaging>jar</packaging>
 
 	<name>heanbian-core</name>
 	<url>https://github.com/heanbian/heanbian-core</url>
 	<description>Heanbian core component.</description>
 	<inceptionYear>2019</inceptionYear>
+
+	<organization>
+		<name>Heanbian</name>
+		<url>https://heanbian.com</url>
+	</organization>
 
 	<licenses>
 		<license>
