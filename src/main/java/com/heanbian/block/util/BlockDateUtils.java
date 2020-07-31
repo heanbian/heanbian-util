@@ -7,7 +7,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import static java.util.Objects.requireNonNull;
 import java.util.SplittableRandom;
 import java.util.stream.Stream;
 
@@ -18,45 +17,40 @@ import java.util.stream.Stream;
  */
 public final class BlockDateUtils {
 
-	public static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss";
-	public static final String DEFAULT_FORMAT_DATE = "yyyy-MM-dd";
-	public static final String DEFAULT_FORMAT_TIME = "HH:mm:ss";
-
-	public static final String DEFAULT_FORMAT_DENSE = "yyyyMMddHHmmss";
-	public static final String DEFAULT_FORMAT_DATE_DENSE = "yyyyMMdd";
-	public static final String DEFAULT_FORMAT_TIME_DENSE = "HHmmss";
-
-	public static String now(final String pattern) {
-		requireNonNull(pattern, "pattern must not be null");
-		return ZonedDateTime.now().format(DateTimeFormatter.ofPattern(pattern));
+	public static String now(BlockDateEnum pattern) {
+		return ZonedDateTime.now().format(DateTimeFormatter.ofPattern(pattern.getValue()));
 	}
 
 	public static String getDateTime() {
-		return now(DEFAULT_FORMAT);
+		return now(BlockDateEnum.DATE_TIME);
 	}
 
 	public static String getDate() {
-		return now(DEFAULT_FORMAT_DATE);
+		return now(BlockDateEnum.DATE);
 	}
 
 	public static String getDate(final int day) {
-		return addDay(day).format(DateTimeFormatter.ofPattern(DEFAULT_FORMAT_DATE));
+		return addDay(day).format(DateTimeFormatter.ofPattern(BlockDateEnum.DATE.getValue()));
 	}
 
 	public static String getTime() {
-		return now(DEFAULT_FORMAT_TIME);
+		return now(BlockDateEnum.TIME);
 	}
 
 	public static long getDateTimeLong() {
-		return Long.parseLong(now(DEFAULT_FORMAT_DENSE));
+		return Long.parseLong(now(BlockDateEnum.DATE_TIME_OF));
 	}
 
 	public static long getDateLong() {
-		return Long.parseLong(now(DEFAULT_FORMAT_DATE_DENSE));
+		return Long.parseLong(now(BlockDateEnum.DATE_OF));
+	}
+
+	public static long getTimeLong() {
+		return Long.parseLong(now(BlockDateEnum.TIME_OF));
 	}
 
 	public static long getDateLong(final int day) {
-		return Long.parseLong(addDay(day).format(DateTimeFormatter.ofPattern(DEFAULT_FORMAT_DATE_DENSE)));
+		return Long.parseLong(addDay(day).format(DateTimeFormatter.ofPattern(BlockDateEnum.DATE_OF.getValue())));
 	}
 
 	public static long getRandomDateLong(final int bound) {
@@ -69,10 +63,6 @@ public final class BlockDateUtils {
 		SplittableRandom random = new SplittableRandom();
 		int c = random.nextInt(bound);
 		return getDate(-c);
-	}
-
-	public static long getTimeLong() {
-		return Long.parseLong(now(DEFAULT_FORMAT_TIME_DENSE));
 	}
 
 	public static ZonedDateTime addDay(final long day) {
@@ -94,5 +84,8 @@ public final class BlockDateUtils {
 			dates.add(f.toString());
 		});
 		return dates;
+	}
+
+	private BlockDateUtils() {
 	}
 }
