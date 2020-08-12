@@ -6,7 +6,7 @@
 
 	<groupId>com.heanbian</groupId>
 	<artifactId>heanbian-core</artifactId>
-	<version>11.2.3</version>
+	<version>20200807</version>
 	<packaging>jar</packaging>
 
 	<name>heanbian-core</name>
