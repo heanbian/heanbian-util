@@ -2,11 +2,6 @@ package com.heanbian.block.util;
 
 import java.util.Comparator;
 
-/**
- * Example:Collections.sort(tempList, new NaturalOrderComparator<String>(true));
- * 
- * @param <T>
- */
 public final class NaturalOrderComparator<T> implements Comparator<T> {
 
 	private final boolean caseInsensitive;
