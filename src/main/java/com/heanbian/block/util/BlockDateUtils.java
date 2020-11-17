@@ -5,9 +5,9 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.SplittableRandom;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -69,21 +69,9 @@ public final class BlockDateUtils {
 		return ZonedDateTime.now(ZoneId.systemDefault()).plusDays(day);
 	}
 
-	public static List<String> between(final String start, final String end) {
-		List<String> dates = new ArrayList<>();
-		LocalDate startDate = LocalDate.parse(start);
-		LocalDate endDate = LocalDate.parse(end);
-
-		long distance = ChronoUnit.DAYS.between(startDate, endDate);
-		if (distance < 1) {
-			return dates;
-		}
-		Stream.iterate(startDate, d -> {
-			return d.plusDays(1);
-		}).limit(distance + 1).forEach(f -> {
-			dates.add(f.toString());
-		});
-		return dates;
+	public static List<LocalDate> betweenDays(final LocalDate start, final LocalDate end) {
+		long len = ChronoUnit.DAYS.between(start, end);
+		return Stream.iterate(start, d -> d.plusDays(1)).limit(len + 1).collect(Collectors.toList());
 	}
 
 	private BlockDateUtils() {
