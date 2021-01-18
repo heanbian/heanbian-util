@@ -4,14 +4,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.heanbian</groupId>
-	<artifactId>heanbian-core</artifactId>
-	<version>11.2.5</version>
+	<groupId>com.heanbian.block</groupId>
+	<artifactId>heanbian-util</artifactId>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>heanbian-core</name>
-	<url>https://github.com/heanbian/heanbian-core</url>
-	<description>Heanbian core component.</description>
+	<name>heanbian-util</name>
+	<url>https://github.com/heanbian/heanbian-util</url>
+	<description>Heanbian util component.</description>
 	<inceptionYear>2019</inceptionYear>
 
 	<organization>
@@ -41,14 +41,14 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:https://github.com/heanbian/heanbian-core.git</connection>
-		<developerConnection>scm:git:https://github.com/heanbian/heanbian-core.git</developerConnection>
-		<url>https://github.com/heanbian/heanbian-core</url>
+		<connection>scm:git:https://github.com/heanbian/heanbian-util.git</connection>
+		<developerConnection>scm:git:https://github.com/heanbian/heanbian-util.git</developerConnection>
+		<url>https://github.com/heanbian/heanbian-util</url>
 	</scm>
 
 	<issueManagement>
 		<system>Github</system>
-		<url>https://github.com/heanbian/heanbian-core/issues</url>
+		<url>https://github.com/heanbian/heanbian-util/issues</url>
 	</issueManagement>
 
 	<repositories>
