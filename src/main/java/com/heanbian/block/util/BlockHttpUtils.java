@@ -14,12 +14,10 @@ import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.Map;
 
-/**
- * 
- * @author heanbian
- *
- */
 public final class BlockHttpUtils {
+
+	private BlockHttpUtils() {
+	}
 
 	public static String doGet(String url, Map<String, String> params, Map<String, String> header, Duration timeout) {
 		return internalGet(url, params, header, timeout);
@@ -34,8 +32,8 @@ public final class BlockHttpUtils {
 	}
 
 	public static String doPost(String url, Map<String, String> header, String body, Duration timeout) {
-		BodyPublisher dodyPublisher = (body == null) ? BodyPublishers.noBody() : BodyPublishers.ofString(body);
-		return internalPost(url, header, dodyPublisher, timeout);
+		BodyPublisher bodyPublisher = (body == null) ? BodyPublishers.noBody() : BodyPublishers.ofString(body);
+		return internalPost(url, header, bodyPublisher, timeout);
 	}
 
 	private static String internalGet(String url, Map<String, String> params, Map<String, String> header,
@@ -107,6 +105,4 @@ public final class BlockHttpUtils {
 		return null;
 	}
 
-	private BlockHttpUtils() {
-	}
 }

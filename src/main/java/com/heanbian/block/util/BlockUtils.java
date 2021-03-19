@@ -1,15 +1,8 @@
 package com.heanbian.block.util;
 
-import java.util.SplittableRandom;
-
 public final class BlockUtils {
 
-	public static int randomInt(final int bound) {
-		return new SplittableRandom().nextInt(bound);
-	}
-
-	public static long randomLong(final int bound) {
-		return new SplittableRandom().nextLong(bound);
+	private BlockUtils() {
 	}
 
 	public static String remove(String str) {
