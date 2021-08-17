@@ -1,43 +1,29 @@
 package com.heanbian.block.util;
 
-/**
- * 
- * @author heanbian
- *
- */
 public final class BlockResponse<T> {
-
-	public static final int SUCCESS = 0;
-	public static final int FAIL = 1;
-	public static final String SUCCESS_STRING = "success";
-	public static final String FAIL_STRING = "fail";
 
 	private int code;
 	private String message;
 	private T data;
 
-	public static <T> BlockResponse<T> block(int code, String message, T data) {
+	public static <T> BlockResponse<T> of(int code) {
+		return new BlockResponse<>(code, null, null);
+	}
+
+	public static <T> BlockResponse<T> of(String message) {
+		return new BlockResponse<>(0, message, null);
+	}
+
+	public static <T> BlockResponse<T> of(int code, String message) {
+		return new BlockResponse<>(code, message, null);
+	}
+
+	public static <T> BlockResponse<T> of(String message, T data) {
+		return new BlockResponse<>(0, message, data);
+	}
+
+	public static <T> BlockResponse<T> of(int code, String message, T data) {
 		return new BlockResponse<>(code, message, data);
-	}
-
-	public static <T> BlockResponse<T> block(int code, String message) {
-		return block(code, message, null);
-	}
-
-	public static <T> BlockResponse<T> success(T data) {
-		return block(SUCCESS, SUCCESS_STRING, data);
-	}
-
-	public static <T> BlockResponse<T> success() {
-		return block(SUCCESS, SUCCESS_STRING);
-	}
-
-	public static <T> BlockResponse<T> fail(T data) {
-		return block(FAIL, FAIL_STRING, data);
-	}
-
-	public static <T> BlockResponse<T> fail() {
-		return block(FAIL, FAIL_STRING);
 	}
 
 	public BlockResponse() {

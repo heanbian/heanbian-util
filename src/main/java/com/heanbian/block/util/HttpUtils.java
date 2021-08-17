@@ -14,9 +14,9 @@ import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.Map;
 
-public final class BlockHttpUtils {
+public final class HttpUtils {
 
-	private BlockHttpUtils() {
+	private HttpUtils() {
 	}
 
 	public static String doGet(String url, Map<String, String> params, Map<String, String> header, Duration timeout) {
@@ -62,9 +62,9 @@ public final class BlockHttpUtils {
 
 		try {
 			return client.send(request, BodyHandlers.ofString()).body();
-		} catch (IOException e) {// Ignore
-		} catch (InterruptedException e) {// Ignore
-		}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} catch (InterruptedException e) {}
 		return null;
 	}
 
@@ -99,9 +99,9 @@ public final class BlockHttpUtils {
 
 		try {
 			return client.send(request, BodyHandlers.ofString()).body();
-		} catch (IOException e) {// Ignore
-		} catch (InterruptedException e) {// Ignore
-		}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} catch (InterruptedException e) {}
 		return null;
 	}
 

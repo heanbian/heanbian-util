@@ -9,9 +9,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Stream;
 
-public final class BlockDateUtils {
+public final class LocalDateTimeUtils {
 
-	private BlockDateUtils() {
+	private LocalDateTimeUtils() {
 	}
 
 	public static String now(String pattern) {

@@ -1,8 +1,8 @@
 package com.heanbian.block.util;
 
-public final class BlockUtils {
+public final class CommonUtils {
 
-	private BlockUtils() {
+	private CommonUtils() {
 	}
 
 	public static String remove(String str) {
