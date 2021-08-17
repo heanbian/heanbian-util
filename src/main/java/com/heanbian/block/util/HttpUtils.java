@@ -16,9 +16,6 @@ import java.util.Map;
 
 public final class HttpUtils {
 
-	private HttpUtils() {
-	}
-
 	public static String doGet(String url, Map<String, String> params, Map<String, String> header, Duration timeout) {
 		return internalGet(url, params, header, timeout);
 	}
@@ -64,7 +61,8 @@ public final class HttpUtils {
 			return client.send(request, BodyHandlers.ofString()).body();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-		} catch (InterruptedException e) {}
+		} catch (InterruptedException e) {
+		}
 		return null;
 	}
 
@@ -101,8 +99,11 @@ public final class HttpUtils {
 			return client.send(request, BodyHandlers.ofString()).body();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-		} catch (InterruptedException e) {}
+		} catch (InterruptedException e) {
+		}
 		return null;
 	}
 
+	private HttpUtils() {
+	}
 }

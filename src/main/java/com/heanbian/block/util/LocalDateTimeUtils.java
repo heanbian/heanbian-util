@@ -11,11 +11,12 @@ import java.util.stream.Stream;
 
 public final class LocalDateTimeUtils {
 
-	private LocalDateTimeUtils() {
-	}
-
 	public static String now(String pattern) {
 		return LocalDateTime.now().format(DateTimeFormatter.ofPattern(pattern));
+	}
+
+	public static LocalDateTime parse(String date, String pattern) {
+		return LocalDateTime.parse(pattern, DateTimeFormatter.ofPattern(pattern));
 	}
 
 	public static List<LocalDate> betweenDays(final LocalDate start, final LocalDate end) {
@@ -28,4 +29,6 @@ public final class LocalDateTimeUtils {
 		return Stream.iterate(start, d -> d.plusDays(1)).limit(len + 1).collect(toList());
 	}
 
+	private LocalDateTimeUtils() {
+	}
 }
