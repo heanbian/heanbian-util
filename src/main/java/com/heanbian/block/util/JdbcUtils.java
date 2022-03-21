@@ -16,8 +16,8 @@ public class JdbcUtils {
 			Connection conn = threadLocal.get();
 			if (conn == null) {
 				conn = DriverManager.getConnection(
-						"jdbc:mysql://10.2.1.10:5506/asteriskcdrdb?useUnicode=true&characterEncoding=utf-8", "dianxin",
-						"Kr9Rx7oRPhc4yTXP");
+						"jdbc:mysql://127.0.0.1:5506/testdb?useUnicode=true&characterEncoding=utf-8", "testname",
+						"testpwd");
 				threadLocal.set(conn);
 			}
 			return conn;
