@@ -5,7 +5,7 @@ public final class DesensitizationUtils {
 	private static final String PHONE_REGEX = "(86){0,1}1\\d{10}";
 
 	public static String de(String value) {
-		if (CommonUtils.isBlank(value)) {
+		if (HeanbianUtils.isBlank(value)) {
 			return "";
 		}
 		if (value.contains("@")) {

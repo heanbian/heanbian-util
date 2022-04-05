@@ -10,17 +10,17 @@ JDK 17
 
 ```
 <dependency>
-  <groupId>com.heanbian.block</groupId>
+  <groupId>com.heanbian</groupId>
   <artifactId>heanbian-util</artifactId>
-  <version>1.0.4</version>
+  <version>1.0.7</version>
 </dependency>
 ```
 
 ## 使用示例
 
-> BlockResponse
+> Rest
 
-> CommonUtils
+> HeanbianUtils
 
 > DesensitizationUtils
 
@@ -29,4 +29,6 @@ JDK 17
 > LocalDateTimeUtils
 
 > NaturalOrderComparator
+
+> Page
 

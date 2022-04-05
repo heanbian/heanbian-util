@@ -1,6 +1,6 @@
 package com.heanbian.block.util;
 
-public final class CommonUtils {
+public final class HeanbianUtils {
 
 	public static String remove(String str) {
 		StringBuffer buf = new StringBuffer();
@@ -35,6 +35,6 @@ public final class CommonUtils {
 		return cs == null ? 0 : cs.length();
 	}
 
-	private CommonUtils() {
+	private HeanbianUtils() {
 	}
 }
