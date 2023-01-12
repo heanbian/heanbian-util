@@ -12,23 +12,6 @@ JDK 17
 <dependency>
   <groupId>com.heanbian</groupId>
   <artifactId>heanbian-util</artifactId>
-  <version>10</version>
+  <version>13</version>
 </dependency>
 ```
-
-## 使用示例
-
-> Rest
-
-> HeanbianUtils
-
-> DesensitizationUtils
-
-> HttpUtils
-
-> LocalDateTimeUtils
-
-> NaturalOrderComparator
-
-> Page
-
