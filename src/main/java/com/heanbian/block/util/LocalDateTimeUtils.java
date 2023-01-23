@@ -28,7 +28,4 @@ public final class LocalDateTimeUtils {
 		long len = ChronoUnit.DAYS.between(start, end);
 		return Stream.iterate(start, d -> d.plusDays(1)).limit(len + 1).collect(toList());
 	}
-
-	private LocalDateTimeUtils() {
-	}
 }

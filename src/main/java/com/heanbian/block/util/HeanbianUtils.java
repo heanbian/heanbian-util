@@ -35,6 +35,4 @@ public final class HeanbianUtils {
 		return cs == null ? 0 : cs.length();
 	}
 
-	private HeanbianUtils() {
-	}
 }

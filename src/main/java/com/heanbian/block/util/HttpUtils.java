@@ -104,6 +104,4 @@ public final class HttpUtils {
 		return null;
 	}
 
-	private HttpUtils() {
-	}
 }

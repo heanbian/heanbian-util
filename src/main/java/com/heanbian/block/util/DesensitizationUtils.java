@@ -16,7 +16,4 @@ public final class DesensitizationUtils {
 		}
 		return value;
 	}
-
-	private DesensitizationUtils() {
-	}
 }
