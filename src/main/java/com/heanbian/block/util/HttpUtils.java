@@ -33,8 +33,7 @@ public final class HttpUtils {
 		return internalPost(url, header, bodyPublisher, timeout);
 	}
 
-	private static String internalGet(String url, Map<String, String> params, Map<String, String> header,
-			Duration timeout) {
+	private static String internalGet(String url, Map<String, String> params, Map<String, String> header, Duration timeout) {
 		requireNonNull(url, "url must not be empty");
 
 		if (timeout == null) {
@@ -66,8 +65,7 @@ public final class HttpUtils {
 		return null;
 	}
 
-	private static String internalPost(String url, Map<String, String> params, Map<String, String> header,
-			Duration timeout) {
+	private static String internalPost(String url, Map<String, String> params, Map<String, String> header, Duration timeout) {
 		BodyPublisher body = BodyPublishers.noBody();
 
 		if (params != null && !params.isEmpty()) {
