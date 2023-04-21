@@ -35,4 +35,26 @@ public final class HeanbianUtils {
 		return cs == null ? 0 : cs.length();
 	}
 
+	public static String left(final String str, final int len) {
+		if (str == null) {
+			return null;
+		}
+		if (len < 0) {
+			return "";
+		}
+		if (str.length() <= len) {
+			return str;
+		}
+		return str.substring(0, len);
+	}
+	
+	public static String removeStart(final String str, final String remove) {
+        if (isBlank(str) || isBlank(remove)) {
+            return str;
+        }
+        if (str.startsWith(remove)) {
+            return str.substring(remove.length());
+        }
+        return str;
+    }
 }

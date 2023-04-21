@@ -4,24 +4,12 @@ import java.util.List;
 
 public class Page<I> {
 
-	/**
-	 * 当前页
-	 */
 	private int pageNumber = 1;
 
-	/**
-	 * 每页大小
-	 */
 	private int pageSize = 10;
 
-	/**
-	 * 总数
-	 */
 	private long total;
 
-	/**
-	 * 业务数据
-	 */
 	private List<I> list;
 
 	public Page() {
@@ -65,7 +53,6 @@ public class Page<I> {
 		return this;
 	}
 
-	// 总页数 = （总记录数 + 每页数据大小 - 1） / 每页数据大小
 	public long getTotalPage() {
 		return (total + pageSize - 1) / pageSize;
 	}
