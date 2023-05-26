@@ -6,7 +6,7 @@
 
 	<groupId>com.heanbian</groupId>
 	<artifactId>heanbian-util</artifactId>
-	<version>13.5</version>
+	<version>14</version>
 	<packaging>jar</packaging>
 
 	<name>heanbian-util</name>
