@@ -12,6 +12,6 @@ JDK 17
 <dependency>
   <groupId>com.heanbian</groupId>
   <artifactId>heanbian-util</artifactId>
-  <version>15.0</version>
+  <version>15.1</version>
 </dependency>
 ```
