@@ -2,7 +2,7 @@
 
 ## 前提条件
 
-JDK 17
+JDK 21
 
 ## pom.xml
 
@@ -12,6 +12,6 @@ JDK 17
 <dependency>
   <groupId>com.heanbian</groupId>
   <artifactId>heanbian-util</artifactId>
-  <version>16.1</version>
+  <version>17.1</version>
 </dependency>
 ```
