@@ -42,7 +42,8 @@
 
 	<scm>
 		<connection>scm:git:https://github.com/heanbian/heanbian-util.git</connection>
-		<developerConnection>scm:git:https://github.com/heanbian/heanbian-util.git</developerConnection>
+		<developerConnection>
+			scm:git:https://github.com/heanbian/heanbian-util.git</developerConnection>
 		<url>https://github.com/heanbian/heanbian-util</url>
 	</scm>
 
@@ -73,7 +74,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
-						<version>3.12.1</version>
+						<version>3.13.0</version>
 						<configuration>
 							<encoding>UTF-8</encoding>
 							<source>21</source>
@@ -83,7 +84,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>3.3.0</version>
+						<version>3.3.1</version>
 						<executions>
 							<execution>
 								<id>attach-sources</id>
@@ -109,7 +110,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>3.2.0</version>
+						<version>3.2.3</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
