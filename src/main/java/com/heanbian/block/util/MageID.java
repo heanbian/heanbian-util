@@ -2,15 +2,25 @@ package com.heanbian.block.util;
 
 import java.security.SecureRandom;
 import java.util.Random;
+import java.util.UUID;
 
-public final class NanoId {
+public final class MageID {
 
-	public static final int DEFAULT_SIZE = 21;
-	public static final SecureRandom DEFAULT_NUMBER_GENERATOR = new SecureRandom();
-	public static final char[] DEFAULT_ALPHABET = "_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+	private static final String JJ = "_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private static final int DEFAULT_SIZE = 21;
+	private static final char[] ALPHABET = JJ.toCharArray();
+	private static final SecureRandom RANDOM = new SecureRandom();
+
+	public static String uuid() {
+		return uuid(true);
+	}
+
+	public static String uuid(boolean hyphen) {
+		return hyphen ? UUID.randomUUID().toString().replaceAll("-", "") : UUID.randomUUID().toString();
+	}
 
 	public static String nanoId() {
-		return nanoId(DEFAULT_NUMBER_GENERATOR, DEFAULT_ALPHABET, DEFAULT_SIZE);
+		return nanoId(RANDOM, ALPHABET, DEFAULT_SIZE);
 	}
 
 	public static String nanoId(final Random random, final char[] alphabet, final int size) {
@@ -49,4 +59,5 @@ public final class NanoId {
 			}
 		}
 	}
+
 }
