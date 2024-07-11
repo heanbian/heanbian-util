@@ -6,7 +6,7 @@
 
 	<groupId>com.heanbian</groupId>
 	<artifactId>heanbian-util</artifactId>
-	<version>20.2</version>
+	<version>20.3</version>
 	<packaging>jar</packaging>
 
 	<name>heanbian-util</name>
