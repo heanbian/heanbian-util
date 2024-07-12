@@ -15,6 +15,8 @@ import java.time.Duration;
 import java.util.Map;
 
 public final class HttpUtils {
+	
+	private HttpUtils() {}
 
 	public static String doGet(String url, Map<String, String> params, Map<String, String> header, Duration timeout) {
 		return _get(url, params, header, timeout);

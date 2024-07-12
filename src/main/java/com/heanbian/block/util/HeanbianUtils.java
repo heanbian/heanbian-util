@@ -1,6 +1,8 @@
 package com.heanbian.block.util;
 
 public final class HeanbianUtils {
+	
+	private HeanbianUtils() {}
 
 	public static String remove(String str) {
 		StringBuffer buf = new StringBuffer();

@@ -4,7 +4,7 @@ import java.security.SecureRandom;
 import java.util.Random;
 import java.util.UUID;
 
-public final class MageID {
+public final class HeanbianId {
 
 	private static final String JJ = "_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private static final int DEFAULT_SIZE = 21;
@@ -60,4 +60,5 @@ public final class MageID {
 		}
 	}
 
+	private HeanbianId() {}
 }

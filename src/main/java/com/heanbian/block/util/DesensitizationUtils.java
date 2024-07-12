@@ -1,6 +1,8 @@
 package com.heanbian.block.util;
 
 public final class DesensitizationUtils {
+	
+	private DesensitizationUtils() {}
 
 	private static final String PHONE_REGEX = "(86){0,1}1\\d{10}";
 
