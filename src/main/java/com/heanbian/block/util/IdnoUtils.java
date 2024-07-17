@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public final class IdnoUtils {
-	
+
 	private IdnoUtils() {}
 
 	private static final List<String> PROVINCES = List.of("11", "12", "13", "14", "15", "21", "22", "23", "31", "32",
@@ -16,18 +16,18 @@ public final class IdnoUtils {
 	private static final char[] COEF = { '1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2' };
 	private static final int[] CODES = { 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 };
 
-	public static Sex getSex(String idno) {
+	public static String getSex(String idno) {
 		if (!validated(idno)) {
-			return Sex.保密;
+			return "未知";
 		}
 
 		char cnm = idno.charAt(16);
 		if (!Character.isDigit(cnm)) {
-			return Sex.保密;
+			return "未知";
 		}
 
 		int num = cnm - '0';
-		return num % 2 == 0 ? Sex.女 : Sex.男;
+		return num % 2 == 0 ? "女" : "男";
 	}
 
 	public static int getAge(String idno) {
