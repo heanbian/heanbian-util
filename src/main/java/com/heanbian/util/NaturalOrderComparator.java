@@ -1,117 +1,103 @@
 package com.heanbian.util;
-
 import java.util.Comparator;
 
 public final class NaturalOrderComparator<T> implements Comparator<T> {
 
-	private final boolean caseInsensitive;
+    private final boolean caseInsensitive;
 
-	public NaturalOrderComparator() {
-		this(false);
-	}
+    public NaturalOrderComparator() {
+        this(false);
+    }
 
-	public NaturalOrderComparator(boolean caseInsensitive) {
-		this.caseInsensitive = caseInsensitive;
-	}
+    public NaturalOrderComparator(boolean caseInsensitive) {
+        this.caseInsensitive = caseInsensitive;
+    }
 
-	@Override
-	public int compare(T o1, T o2) {
-		String a = o1.toString();
-		String b = o2.toString();
+    @Override
+    public int compare(T o1, T o2) {
+        String a = o1.toString();
+        String b = o2.toString();
 
-		int ia = 0, ib = 0;
-		int nza = 0, nzb = 0;
-		char ca, cb;
-		int result;
+        int ia = 0, ib = 0;
+        int aLen = a.length(), bLen = b.length();
 
-		while (true) {
-			nza = nzb = 0;
+        while (ia < aLen && ib < bLen) {
+            char ca = charAt(a, ia);
+            char cb = charAt(b, ib);
 
-			ca = charAt(a, ia);
-			cb = charAt(b, ib);
+            if (Character.isDigit(ca) && Character.isDigit(cb)) {
+                // 定位数字块结尾
+                int aEnd = findNumberEnd(a, ia);
+                int bEnd = findNumberEnd(b, ib);
 
-			while (ca == '0') {
-				if (ca == '0') {
-					nza++;
-				} else {
-					nza = 0;
-				}
+                int compareResult = compareNumerically(a, ia, aEnd, b, ib, bEnd);
+                if (compareResult != 0) {
+                    return compareResult;
+                }
 
-				if (!Character.isDigit(charAt(a, ia + 1)))
-					break;
+                // 移动索引至数字块后
+                ia = aEnd;
+                ib = bEnd;
+            } else {
+                if (ca != cb) {
+                    return ca - cb;
+                }
+                ia++;
+                ib++;
+            }
+        }
 
-				ca = charAt(a, ++ia);
-			}
+        // 处理剩余长度差异
+        return Integer.compare(aLen - ia, bLen - ib);
+    }
 
-			while (cb == '0') {
-				if (cb == '0') {
-					nzb++;
-				} else {
-					nzb = 0;
-				}
+    private int findNumberEnd(String s, int start) {
+        int end = start;
+        while (end < s.length() && Character.isDigit(s.charAt(end))) {
+            end++;
+        }
+        return end;
+    }
 
-				if (!Character.isDigit(charAt(b, ib + 1)))
-					break;
+    private int compareNumerically(String a, int aStart, int aEnd,
+                                   String b, int bStart, int bEnd) {
+        // 跳过前导零
+        int aNonZero = aStart;
+        while (aNonZero < aEnd && a.charAt(aNonZero) == '0') aNonZero++;
+        int bNonZero = bStart;
+        while (bNonZero < bEnd && b.charAt(bNonZero) == '0') bNonZero++;
 
-				cb = charAt(b, ++ib);
-			}
+        // 计算有效数字长度
+        int aDigits = aEnd - aNonZero;
+        int bDigits = bEnd - bNonZero;
 
-			if (Character.isDigit(ca) && Character.isDigit(cb)) {
-				if ((result = right(a.substring(ia), b.substring(ib))) != 0) {
-					return result;
-				}
-			}
+        // 比较有效数字长度
+        if (aDigits != bDigits) {
+            return Integer.compare(aDigits, bDigits);
+        }
 
-			if (ca == 0 && cb == 0) {
-				return nza - nzb;
-			}
+        // 逐位比较有效数字
+        for (int i = 0; i < aDigits; i++) {
+            char ac = a.charAt(aNonZero + i);
+            char bc = b.charAt(bNonZero + i);
+            if (ac != bc) {
+                return Character.compare(ac, bc);
+            }
+        }
 
-			if (ca < cb) {
-				return -1;
-			} else if (ca > cb) {
-				return +1;
-			}
+        // 处理全零情况，比较块长度
+        if (aDigits == 0) {
+            return Integer.compare(aEnd - aStart, bEnd - bStart);
+        }
 
-			++ia;
-			++ib;
-		}
-	}
+        return 0; // 数值相等
+    }
 
-	private char charAt(String s, int i) {
-		if (i >= s.length()) {
-			return 0;
-		} else {
-			return caseInsensitive ? Character.toUpperCase(s.charAt(i)) : s.charAt(i);
-		}
-	}
-
-	private int right(String a, String b) {
-		int bias = 0;
-		int ia = 0;
-		int ib = 0;
-
-		for (;; ia++, ib++) {
-			char ca = charAt(a, ia);
-			char cb = charAt(b, ib);
-
-			if (!Character.isDigit(ca) && !Character.isDigit(cb)) {
-				return bias;
-			} else if (!Character.isDigit(ca)) {
-				return -1;
-			} else if (!Character.isDigit(cb)) {
-				return +1;
-			} else if (ca < cb) {
-				if (bias == 0) {
-					bias = -1;
-				}
-			} else if (ca > cb) {
-				if (bias == 0) {
-					bias = +1;
-				}
-			} else if (ca == 0 && cb == 0) {
-				return bias;
-			}
-		}
-	}
-
+    private char charAt(String s, int index) {
+        if (index >= s.length()) {
+            return 0;
+        }
+        char c = s.charAt(index);
+        return caseInsensitive ? Character.toUpperCase(c) : c;
+    }
 }
