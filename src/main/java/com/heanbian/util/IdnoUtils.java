@@ -1,4 +1,4 @@
-package com.heanbian.block.util;
+package com.heanbian.util;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -7,57 +7,34 @@ import java.util.List;
 
 public final class IdnoUtils {
 
-	private IdnoUtils() {}
-
 	private static final List<String> PROVINCES = List.of("11", "12", "13", "14", "15", "21", "22", "23", "31", "32",
 			"33", "34", "35", "36", "37", "41", "42", "43", "44", "45", "46", "50", "51", "52", "53", "54", "61", "62",
 			"63", "64", "65", "71", "81", "82", "91");
 
 	private static final char[] COEF = { '1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2' };
 	private static final int[] CODES = { 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 };
+	private static final String[] ZODIACS = { "猴", "鸡", "狗", "猪", "鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊" };
+
+	private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd");
 
 	public static String getSex(String idno) {
 		if (!validated(idno)) {
-			return "未知";
+			return "保密";
 		}
-
-		char cnm = idno.charAt(16);
-		if (!Character.isDigit(cnm)) {
-			return "未知";
-		}
-
-		int num = cnm - '0';
-		return num % 2 == 0 ? "女" : "男";
+		return (idno.charAt(16) - '0') % 2 == 0 ? "女" : "男";
 	}
 
 	public static int getAge(String idno) {
 		var d = getBirthday(idno);
-		if (d == null) {
-			return -1;
-		}
-
-		var n = LocalDate.now();
-		var p = Period.between(d, n);
-		return p.getYears();
+		return d != null ? Period.between(d, LocalDate.now()).getYears() : -1;
 	}
 
 	public static LocalDate getBirthday(String idno) {
-		if (!validated(idno)) {
-			return null;
-		}
-
-		var birthday = idno.substring(6, 14);
-		LocalDate d;
-		try {
-			d = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("yyyyMMdd"));
-		} catch (Exception e) {
-			d = null;
-		}
-		return d;
+		return validated(idno) ? LocalDate.parse(idno.substring(6, 14), FORMAT) : null;
 	}
 
 	public static boolean validated(String idno) {
-		if (HeanbianUtils.isBlank(idno) || idno.length() != 18) {
+		if (idno == null || idno.length() != 18) {
 			return false;
 		}
 
@@ -94,29 +71,11 @@ public final class IdnoUtils {
 
 	public static String getZodiac(String idno) {
 		var d = getBirthday(idno);
-		if (d == null) {
-			return null;
-		}
-		return getZodiac(d.getYear());
+		return d != null ? getZodiac(d.getYear()) : null;
 	}
 
 	public static String getZodiac(int year) {
-		int z = year % 12;
-		return switch (z) {
-		case 4 -> "鼠";
-		case 5 -> "牛";
-		case 6 -> "虎";
-		case 7 -> "兔";
-		case 8 -> "龙";
-		case 9 -> "蛇";
-		case 10 -> "马";
-		case 11 -> "羊";
-		case 0 -> "猴";
-		case 1 -> "鸡";
-		case 2 -> "狗";
-		case 3 -> "猪";
-		default -> null;
-		};
+		return ZODIACS[year % 12];
 	}
 
 }
