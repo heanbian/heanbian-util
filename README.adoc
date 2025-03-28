@@ -12,6 +12,6 @@ JDK 21
 <dependency>
   <groupId>com.heanbian</groupId>
   <artifactId>heanbian-util</artifactId>
-  <version>21.4</version>
+  <version>21.7</version>
 </dependency>
 ----
