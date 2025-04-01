@@ -13,17 +13,12 @@ public final class AddrUtils {
 			+ "^::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])$|"
 			+ "^([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])$";
 
-	// 主机名的正则表达式
-	private static final String HOSTNAME_REGEX = "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$";
-
 	private static final Pattern IPV4_PATTERN = Pattern.compile(IPV4_REGEX);
 
 	private static final Pattern IPV6_PATTERN = Pattern.compile(IPV6_REGEX, Pattern.CASE_INSENSITIVE);
 
-	private static final Pattern HOSTNAME_PATTERN = Pattern.compile(HOSTNAME_REGEX);
-
 	public static boolean isValid(String input) {
-		return isValidIPv4(input) || isValidIPv6(input) || isValidHostname(input);
+		return isValidIPv4(input) || isValidIPv6(input);
 	}
 
 	private static boolean isValidIPv4(String input) {
@@ -32,10 +27,6 @@ public final class AddrUtils {
 
 	private static boolean isValidIPv6(String input) {
 		return IPV6_PATTERN.matcher(input).matches();
-	}
-
-	private static boolean isValidHostname(String input) {
-		return HOSTNAME_PATTERN.matcher(input).matches();
 	}
 
 }
