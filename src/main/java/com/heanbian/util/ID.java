@@ -1,6 +1,8 @@
 package com.heanbian.util;
 
+import java.nio.ByteBuffer;
 import java.security.SecureRandom;
+import java.time.Instant;
 import java.util.Random;
 import java.util.UUID;
 
@@ -23,7 +25,7 @@ public final class ID {
 	private static final ThreadLocal<byte[]> DEFAULT_BUFFER = ThreadLocal.withInitial(() -> new byte[DEFAULT_STEP]);
 
 	public static String uuid() {
-		return UUID.randomUUID().toString().replaceAll("-", "");
+		return uuid_v7().toString().replaceAll("-", "");
 	}
 
 	public static String nanoId() {
@@ -96,6 +98,34 @@ public final class ID {
 		if (size <= 0) {
 			throw new IllegalArgumentException("Size must be positive");
 		}
+	}
+
+	public static UUID uuid_v7() {
+		long timestamp = Instant.now().toEpochMilli();
+
+		byte[] randomBytes = new byte[10];
+		RANDOM.nextBytes(randomBytes);
+
+		ByteBuffer buffer = ByteBuffer.allocate(16);
+		buffer.putLong(timestamp << 16 | (randomBytes[0] & 0xFF));
+		buffer.put(randomBytes, 1, 6);
+
+		return toUUID(buffer.array());
+	}
+
+	private static UUID toUUID(byte[] data) {
+		if (data.length != 16) {
+			throw new IllegalArgumentException("Data must be 16 bytes in length");
+		}
+		long msb = 0;
+		long lsb = 0;
+		for (int i = 0; i < 8; i++) {
+			msb = (msb << 8) | (data[i] & 0xFF);
+		}
+		for (int i = 8; i < 16; i++) {
+			lsb = (lsb << 8) | (data[i] & 0xFF);
+		}
+		return new UUID(msb, lsb);
 	}
 
 }
