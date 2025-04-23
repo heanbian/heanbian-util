@@ -33,7 +33,11 @@ public final class HashUtils {
 		SHA3_384("SHA3-384"), //
 		SHA3_512("SHA3-512");
 
-		private String alg;
+		private final String alg;
+
+		SHA3_TYPE() {
+			this("SHA3-224");
+		}
 
 		SHA3_TYPE(String alg) {
 			this.alg = alg;
