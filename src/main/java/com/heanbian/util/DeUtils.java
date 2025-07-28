@@ -5,7 +5,7 @@ public final class DeUtils {
 	private static final String PHONE_REGEX = "(86){0,1}1\\d{10}";
 
 	public static String de(String value) {
-		if (value == null || value.length() == 0) {
+		if (value == null || value.isEmpty()) {
 			return "";
 		}
 

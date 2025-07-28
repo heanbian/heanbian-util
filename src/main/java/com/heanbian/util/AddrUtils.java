@@ -8,6 +8,9 @@ import java.net.UnknownHostException;
 public final class AddrUtils {
 
 	public static boolean isValid(String ip) {
+		if (ip == null || ip.isEmpty()) {
+			return false;
+		}
 		return isValidIPv4(ip) || isValidIPv6(ip);
 	}
 
@@ -30,6 +33,9 @@ public final class AddrUtils {
 	}
 
 	public static boolean isRange(String segment) {
+		if (segment == null || segment.isEmpty()) {
+			return false;
+		}
 		if (segment.contains("/")) {
 			String[] parts = segment.trim().split("/", -1);
 			if (parts.length != 2) {

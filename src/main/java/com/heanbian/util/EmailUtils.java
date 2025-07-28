@@ -4,11 +4,11 @@ import java.util.regex.Pattern;
 
 public final class EmailUtils {
 
-	private static final Pattern LOCAL_PART_PATTERN = Pattern
-			.compile("^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*$");
+	private static final String LOCAL_STRING = "^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*$";
+	private static final String DOMAIN_STRING = "^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,}$";
 
-	private static final Pattern DOMAIN_PATTERN = Pattern
-			.compile("^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,}$");
+	private static final Pattern LOCAL = Pattern.compile(LOCAL_STRING);
+	private static final Pattern DOMAIN = Pattern.compile(DOMAIN_STRING);
 
 	public static boolean isValid(String email) {
 		if (email == null || email.isEmpty()) {
@@ -25,7 +25,7 @@ public final class EmailUtils {
 		String localPart = email.substring(0, atIndex);
 		String domain = email.substring(atIndex + 1);
 
-		if (localPart.length() > 64 || !LOCAL_PART_PATTERN.matcher(localPart).matches()) {
+		if (localPart.length() > 64 || !LOCAL.matcher(localPart).matches()) {
 			return false;
 		}
 
@@ -41,7 +41,7 @@ public final class EmailUtils {
 			}
 		}
 
-		if (!DOMAIN_PATTERN.matcher(domain).matches()) {
+		if (!DOMAIN.matcher(domain).matches()) {
 			return false;
 		}
 
