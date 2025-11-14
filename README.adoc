@@ -2,7 +2,7 @@
 
 == 前提条件
 
-JDK 21
+JDK 21+
 
 == pom.xml
 
@@ -12,6 +12,6 @@ JDK 21
 <dependency>
   <groupId>com.heanbian</groupId>
   <artifactId>heanbian-util</artifactId>
-  <version>2025.6</version>
+  <version>2025.7</version>
 </dependency>
 ----
