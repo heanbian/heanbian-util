@@ -1,7 +1,6 @@
 package com.heanbian.util;
 
-import java.security.SecureRandom;
-import java.util.random.RandomGenerator;
+import module java.base;
 
 public final class NanoID {
 

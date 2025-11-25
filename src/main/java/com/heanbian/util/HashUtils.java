@@ -1,6 +1,6 @@
 package com.heanbian.util;
 
-import java.util.zip.CRC32;
+import module java.base;
 
 public final class HashUtils {
 

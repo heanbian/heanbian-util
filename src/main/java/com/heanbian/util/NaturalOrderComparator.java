@@ -1,5 +1,6 @@
 package com.heanbian.util;
-import java.util.Comparator;
+
+import module java.base;
 
 public final class NaturalOrderComparator<T> implements Comparator<T> {
 

@@ -1,10 +1,6 @@
 package com.heanbian.util;
 
-import java.security.SecureRandom;
-import java.time.Instant;
-import java.util.HexFormat;
-import java.util.Objects;
-import java.util.random.RandomGenerator;
+import module java.base;
 
 public final class UUIDv7 implements Comparable<UUIDv7> {
 
