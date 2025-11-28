@@ -12,6 +12,6 @@ JDK 25+
 <dependency>
   <groupId>com.heanbian</groupId>
   <artifactId>heanbian-util</artifactId>
-  <version>2025.7</version>
+  <version>2025.8</version>
 </dependency>
 ----
