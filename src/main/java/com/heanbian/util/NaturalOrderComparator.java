@@ -1,6 +1,6 @@
 package com.heanbian.util;
 
-import module java.base;
+import java.util.Comparator;
 
 public final class NaturalOrderComparator<T> implements Comparator<T> {
 
@@ -16,39 +16,63 @@ public final class NaturalOrderComparator<T> implements Comparator<T> {
 
     @Override
     public int compare(T o1, T o2) {
-        String a = o1.toString();
-        String b = o2.toString();
+        if (o1 == o2) {
+            return 0;
+        }
+        if (o1 == null) {
+            return -1;
+        }
+        if (o2 == null) {
+            return 1;
+        }
 
-        int ia = 0, ib = 0;
-        int aLen = a.length(), bLen = b.length();
+        String a = String.valueOf(o1);
+        String b = String.valueOf(o2);
+
+        int ia = 0;
+        int ib = 0;
+        int aLen = a.length();
+        int bLen = b.length();
 
         while (ia < aLen && ib < bLen) {
-            char ca = charAt(a, ia);
-            char cb = charAt(b, ib);
+            char ra = a.charAt(ia);
+            char rb = b.charAt(ib);
 
-            if (Character.isDigit(ca) && Character.isDigit(cb)) {
-                // 定位数字块结尾
+            if (Character.isDigit(ra) && Character.isDigit(rb)) {
                 int aEnd = findNumberEnd(a, ia);
                 int bEnd = findNumberEnd(b, ib);
 
-                int compareResult = compareNumerically(a, ia, aEnd, b, ib, bEnd);
-                if (compareResult != 0) {
-                    return compareResult;
+                int result = compareNumerically(a, ia, aEnd, b, ib, bEnd);
+                if (result != 0) {
+                    return result;
                 }
 
-                // 移动索引至数字块后
+                int rawLengthCompare = Integer.compare(aEnd - ia, bEnd - ib);
+                if (rawLengthCompare != 0) {
+                    return rawLengthCompare;
+                }
+
                 ia = aEnd;
                 ib = bEnd;
-            } else {
-                if (ca != cb) {
-                    return ca - cb;
-                }
-                ia++;
-                ib++;
+                continue;
             }
+
+            int charCompare = compareChars(ra, rb);
+            if (charCompare != 0) {
+                return charCompare;
+            }
+
+            if (caseInsensitive && ra != rb) {
+                int fallback = Character.compare(ra, rb);
+                if (fallback != 0) {
+                    return fallback;
+                }
+            }
+
+            ia++;
+            ib++;
         }
 
-        // 处理剩余长度差异
         return Integer.compare(aLen - ia, bLen - ib);
     }
 
@@ -60,24 +84,24 @@ public final class NaturalOrderComparator<T> implements Comparator<T> {
         return end;
     }
 
-    private int compareNumerically(String a, int aStart, int aEnd,
-                                   String b, int bStart, int bEnd) {
-        // 跳过前导零
+    private int compareNumerically(String a, int aStart, int aEnd, String b, int bStart, int bEnd) {
         int aNonZero = aStart;
-        while (aNonZero < aEnd && a.charAt(aNonZero) == '0') aNonZero++;
-        int bNonZero = bStart;
-        while (bNonZero < bEnd && b.charAt(bNonZero) == '0') bNonZero++;
+        while (aNonZero < aEnd && a.charAt(aNonZero) == '0') {
+            aNonZero++;
+        }
 
-        // 计算有效数字长度
+        int bNonZero = bStart;
+        while (bNonZero < bEnd && b.charAt(bNonZero) == '0') {
+            bNonZero++;
+        }
+
         int aDigits = aEnd - aNonZero;
         int bDigits = bEnd - bNonZero;
 
-        // 比较有效数字长度
         if (aDigits != bDigits) {
             return Integer.compare(aDigits, bDigits);
         }
 
-        // 逐位比较有效数字
         for (int i = 0; i < aDigits; i++) {
             char ac = a.charAt(aNonZero + i);
             char bc = b.charAt(bNonZero + i);
@@ -86,19 +110,13 @@ public final class NaturalOrderComparator<T> implements Comparator<T> {
             }
         }
 
-        // 处理全零情况，比较块长度
-        if (aDigits == 0) {
-            return Integer.compare(aEnd - aStart, bEnd - bStart);
-        }
-
-        return 0; // 数值相等
+        return 0;
     }
 
-    private char charAt(String s, int index) {
-        if (index >= s.length()) {
-            return 0;
+    private int compareChars(char a, char b) {
+        if (!caseInsensitive) {
+            return Character.compare(a, b);
         }
-        char c = s.charAt(index);
-        return caseInsensitive ? Character.toUpperCase(c) : c;
+        return Character.compare(Character.toUpperCase(a), Character.toUpperCase(b));
     }
 }

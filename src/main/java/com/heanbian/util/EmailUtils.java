@@ -1,52 +1,91 @@
 package com.heanbian.util;
 
-import module java.base;
+import java.net.IDN;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 public final class EmailUtils {
 
-	private static final String LOCAL_STRING = "^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*$";
-	private static final String DOMAIN_STRING = "^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,}$";
+    private static final Pattern LOCAL = Pattern.compile(
+            "^[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*$"
+    );
 
-	private static final Pattern LOCAL = Pattern.compile(LOCAL_STRING);
-	private static final Pattern DOMAIN = Pattern.compile(DOMAIN_STRING);
+    private static final Pattern DOMAIN_LABEL = Pattern.compile(
+            "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$"
+    );
 
-	public static boolean isValid(String email) {
-		if (email == null || email.isEmpty()) {
-			return false;
-		}
+    private EmailUtils() {
+    }
 
-		int atIndex = email.lastIndexOf('@');
-		if (atIndex <= 0 || atIndex == email.length() - 1)
-			return false;
-		if (email.length() > 254) {
-			return false;
-		}
+    public static boolean isValid(String email) {
+        String value = normalize(email);
+        if (value == null || value.length() > 254) {
+            return false;
+        }
 
-		String localPart = email.substring(0, atIndex);
-		String domain = email.substring(atIndex + 1);
+        int firstAt = value.indexOf('@');
+        int lastAt = value.lastIndexOf('@');
+        if (firstAt <= 0 || firstAt != lastAt || firstAt == value.length() - 1) {
+            return false;
+        }
 
-		if (localPart.length() > 64 || !LOCAL.matcher(localPart).matches()) {
-			return false;
-		}
+        String localPart = value.substring(0, firstAt);
+        String domainPart = value.substring(firstAt + 1);
 
-		return isValidDomain(domain);
-	}
+        if (localPart.length() > 64 || !LOCAL.matcher(localPart).matches()) {
+            return false;
+        }
 
-	private static boolean isValidDomain(String domain) {
-		if (domain.startsWith("xn--")) {
-			try {
-				domain = java.net.IDN.toUnicode(domain);
-			} catch (Exception e) {
-				return false;
-			}
-		}
+        String asciiDomain = toAsciiDomain(domainPart);
+        return asciiDomain != null && isValidDomain(asciiDomain);
+    }
 
-		if (!DOMAIN.matcher(domain).matches()) {
-			return false;
-		}
+    private static boolean isValidDomain(String domain) {
+        if (domain.length() > 253) {
+            return false;
+        }
 
-		String tld = domain.substring(domain.lastIndexOf('.') + 1);
-		return tld.length() >= 2;// 顶级域名至少2个字母
-	}
+        String[] labels = domain.split("\\.");
+        if (labels.length < 2) {
+            return false;
+        }
 
+        for (String label : labels) {
+            if (!DOMAIN_LABEL.matcher(label).matches()) {
+                return false;
+            }
+        }
+
+        String tld = labels[labels.length - 1];
+        return tld.length() >= 2 && !isNumeric(tld);
+    }
+
+    private static String toAsciiDomain(String domain) {
+        try {
+            String ascii = IDN.toASCII(domain, IDN.USE_STD3_ASCII_RULES);
+            if (ascii.isEmpty()) {
+                return null;
+            }
+            return ascii.toLowerCase(Locale.ROOT);
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
+    }
+
+    private static boolean isNumeric(String value) {
+        for (int i = 0; i < value.length(); i++) {
+            if (!Character.isDigit(value.charAt(i))) {
+                return false;
+            }
+        }
+        return !value.isEmpty();
+    }
+
+    private static String normalize(String value) {
+        if (value == null) {
+            return null;
+        }
+        String trimmed = value.trim();
+        return trimmed.isEmpty() ? null : trimmed;
+    }
 }

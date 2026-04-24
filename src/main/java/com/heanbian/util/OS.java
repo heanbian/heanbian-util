@@ -1,18 +1,26 @@
 package com.heanbian.util;
 
+import java.util.Locale;
+
 public final class OS {
 
-	public static boolean isMac() {
-		return System.getProperty("os.name").toLowerCase().contains("mac");
-	}
+    private static final String OS_NAME =
+            System.getProperty("os.name", "").toLowerCase(Locale.ROOT);
 
-	public static boolean isLinux() {
-		var osName = System.getProperty("os.name").toLowerCase();
-		return osName.contains("nix") || osName.contains("nux") || osName.contains("aix");
-	}
+    private OS() {
+    }
 
-	public static boolean isWindows() {
-		return System.getProperty("os.name").toLowerCase().contains("win");
-	}
+    public static boolean isMac() {
+        return OS_NAME.contains("mac");
+    }
 
+    public static boolean isLinux() {
+        return OS_NAME.contains("nix")
+                || OS_NAME.contains("nux")
+                || OS_NAME.contains("aix");
+    }
+
+    public static boolean isWindows() {
+        return OS_NAME.contains("win");
+    }
 }

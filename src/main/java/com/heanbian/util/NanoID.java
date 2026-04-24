@@ -1,70 +1,88 @@
 package com.heanbian.util;
 
-import module java.base;
+import java.security.SecureRandom;
+import java.util.Objects;
+import java.util.random.RandomGenerator;
 
 public final class NanoID {
 
-	public static final String DEFAULT_ALPHABET = "_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	public static final int DEFAULT_SIZE = 21;
-	private static final SecureRandom SECURE_RANDOM = new SecureRandom();
-	private static final RandomGenerator RANDOM_GENERATOR = RandomGenerator.of("L128X256MixRandom");
+    public static final String DEFAULT_ALPHABET = "_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static final int DEFAULT_SIZE = 21;
 
-	private NanoID() {
-	}
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+    private static final ThreadLocal<RandomGenerator> FAST_RANDOM =
+            ThreadLocal.withInitial(() -> RandomGenerator.of("L128X256MixRandom"));
 
-	public static String id() {
-		return id(DEFAULT_SIZE, DEFAULT_ALPHABET, SECURE_RANDOM);
-	}
+    private NanoID() {
+        throw new AssertionError("No instances");
+    }
 
-	public static String id(int size) {
-		return id(size, DEFAULT_ALPHABET, SECURE_RANDOM);
-	}
+    public static String id() {
+        return id(DEFAULT_SIZE, DEFAULT_ALPHABET, SECURE_RANDOM);
+    }
 
-	public static String id(int size, String alphabet) {
-		return id(size, alphabet, SECURE_RANDOM);
-	}
+    public static String id(int size) {
+        return id(size, DEFAULT_ALPHABET, SECURE_RANDOM);
+    }
 
-	public static String id(int size, String alphabet, RandomGenerator random) {
-		if (size <= 0) {
-			throw new IllegalArgumentException("Size must be greater than zero.");
-		}
+    public static String id(int size, String alphabet) {
+        return id(size, alphabet, SECURE_RANDOM);
+    }
 
-		if (alphabet == null || alphabet.isEmpty()) {
-			throw new IllegalArgumentException("Alphabet must not be null or empty.");
-		}
+    public static String id(int size, String alphabet, RandomGenerator random) {
+        Objects.requireNonNull(random, "random must not be null");
+        validate(size, alphabet);
 
-		if (alphabet.length() >= 256) {
-			throw new IllegalArgumentException("Alphabet must contain less than 256 characters.");
-		}
+        if (alphabet.length() == 1) {
+            return String.valueOf(alphabet.charAt(0)).repeat(size);
+        }
 
-		final int mask = (2 << (int) Math.floor(Math.log(alphabet.length() - 1) / Math.log(2))) - 1;
-		final int step = (int) Math.ceil(1.6 * mask * size / alphabet.length());
+        int alphabetSize = alphabet.length();
+        int mask = (2 << (31 - Integer.numberOfLeadingZeros(alphabetSize - 1))) - 1;
+        int step = Math.max(1, (int) Math.ceil(1.6D * mask * size / alphabetSize));
 
-		final StringBuilder idBuilder = new StringBuilder(size);
-		final byte[] bytes = new byte[step];
+        StringBuilder builder = new StringBuilder(size);
+        byte[] bytes = new byte[step];
 
-		while (true) {
-			random.nextBytes(bytes);
+        while (builder.length() < size) {
+            random.nextBytes(bytes);
 
-			for (int i = 0; i < step; i++) {
-				final int alphabetIndex = bytes[i] & mask;
+            for (int i = 0; i < step && builder.length() < size; i++) {
+                int alphabetIndex = bytes[i] & mask;
+                if (alphabetIndex < alphabetSize) {
+                    builder.append(alphabet.charAt(alphabetIndex));
+                }
+            }
+        }
 
-				if (alphabetIndex < alphabet.length()) {
-					idBuilder.append(alphabet.charAt(alphabetIndex));
-					if (idBuilder.length() == size) {
-						return idBuilder.toString();
-					}
-				}
-			}
-		}
-	}
+        return builder.toString();
+    }
 
-	public static String fastId() {
-		return id(DEFAULT_SIZE);
-	}
+    public static String fastId() {
+        return id(DEFAULT_SIZE, DEFAULT_ALPHABET, FAST_RANDOM.get());
+    }
 
-	public static String fastId(int size) {
-		return id(size, DEFAULT_ALPHABET, RANDOM_GENERATOR);
-	}
+    public static String fastId(int size) {
+        return id(size, DEFAULT_ALPHABET, FAST_RANDOM.get());
+    }
 
+    private static void validate(int size, String alphabet) {
+        if (size <= 0) {
+            throw new IllegalArgumentException("size must be greater than zero");
+        }
+        if (alphabet == null || alphabet.isEmpty()) {
+            throw new IllegalArgumentException("alphabet must not be null or empty");
+        }
+        if (alphabet.length() >= 256) {
+            throw new IllegalArgumentException("alphabet must contain less than 256 characters");
+        }
+
+        for (int i = 0; i < alphabet.length(); i++) {
+            for (int j = i + 1; j < alphabet.length(); j++) {
+                if (alphabet.charAt(i) == alphabet.charAt(j)) {
+                    throw new IllegalArgumentException("alphabet must not contain duplicate characters");
+                }
+            }
+        }
+    }
 }

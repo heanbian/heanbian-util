@@ -2,54 +2,100 @@ package com.heanbian.util;
 
 public final class DeUtils {
 
-	private static final String PHONE_REGEX = "(86){0,1}1\\d{10}";
+    private DeUtils() {
+    }
 
-	public static String de(String value) {
-		if (value == null || value.isEmpty()) {
-			return "";
-		}
+    public static String de(String value) {
+        if (value == null || value.isBlank()) {
+            return "";
+        }
 
-		// 邮箱
-		if (value.contains("@")) {
-			return value.replaceAll("(\\w+)\\w{5}@(\\w+)", "$1*****@$2");
-		}
+        String text = value.trim();
 
-		// 手机号
-		if (value.matches(PHONE_REGEX)) {
-			return value.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
-		}
+        if (EmailUtils.isValid(text)) {
+            return maskEmail(text);
+        }
+        if (MobileUtils.isValid(text)) {
+            return maskMobile(text);
+        }
+        if (IdnoUtils.validated(text)) {
+            return maskIdno(text);
+        }
 
-		// 身份证
-		if (value.length() == 18) {
-			return left(value, 6).concat("********").concat(right(value, 4));
-		}
-		return value;
-	}
+        return text;
+    }
 
-	public static String left(final String str, final int len) {
-		if (str == null) {
-			return "";
-		}
-		if (len < 0) {
-			return "";
-		}
-		if (str.length() <= len) {
-			return str;
-		}
-		return str.substring(0, len);
-	}
+    public static String maskEmail(String email) {
+        if (!EmailUtils.isValid(email)) {
+            return email;
+        }
 
-	public static String right(final String str, final int len) {
-		if (str == null) {
-			return "";
-		}
-		if (len < 0) {
-			return "";
-		}
-		if (str.length() <= len) {
-			return str;
-		}
-		return str.substring(str.length() - len);
-	}
+        int atIndex = email.indexOf('@');
+        String local = email.substring(0, atIndex);
+        String domain = email.substring(atIndex);
 
+        if (local.length() == 1) {
+            return "*" + domain;
+        }
+        if (local.length() == 2) {
+            return local.substring(0, 1) + "*" + domain;
+        }
+
+        int starCount = Math.max(1, Math.min(5, local.length() - 2));
+        return local.substring(0, 1)
+                + "*".repeat(starCount)
+                + local.substring(local.length() - 1)
+                + domain;
+    }
+
+    public static String maskMobile(String mobile) {
+        if (mobile == null) {
+            return null;
+        }
+
+        String text = mobile.trim();
+        if (!MobileUtils.isValid(text)) {
+            return text;
+        }
+
+        String prefix = "";
+        String digits = text;
+
+        if (digits.startsWith("+86")) {
+            prefix = "+86";
+            digits = digits.substring(3);
+        } else if (digits.startsWith("86") && digits.length() == 13) {
+            prefix = "86";
+            digits = digits.substring(2);
+        }
+
+        return prefix + left(digits, 3) + "****" + right(digits, 4);
+    }
+
+    public static String maskIdno(String idno) {
+        if (!IdnoUtils.validated(idno)) {
+            return idno;
+        }
+        return left(idno, 6) + "********" + right(idno, 4);
+    }
+
+    public static String left(String str, int len) {
+        if (str == null || len < 0) {
+            return "";
+        }
+        if (str.length() <= len) {
+            return str;
+        }
+        return str.substring(0, len);
+    }
+
+    public static String right(String str, int len) {
+        if (str == null || len < 0) {
+            return "";
+        }
+        if (str.length() <= len) {
+            return str;
+        }
+        return str.substring(str.length() - len);
+    }
 }
