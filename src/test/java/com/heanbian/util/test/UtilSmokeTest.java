@@ -71,4 +71,5 @@ public class UtilSmokeTest {
 		System.out.println(comparator.compare("file2", "file10") < 0);
 		System.out.println(comparator.compare("file01", "file1") > 0);
 	}
+
 }
